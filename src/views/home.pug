@@ -1,0 +1,10 @@
+extends base
+include mixins/video
+
+block content 
+    h2 Welcome Home! 
+    ul 
+        each video in videos 
+           +video(video)
+        else 
+            li sorry nothing found
