@@ -2,17 +2,20 @@ doctype html
 
 html(lang="ko")
     head 
-        title #{pageTitle} | Wetube
+        title #{pageTitle} | Dinterest
         link(rel="stylesheet" href="https://unpkg.com/mvp.css@1.11/mvp.css")
     body 
         header 
           
             h1=pageTitle 
-        nav 
-            ul 
-                li 
-                    a(href="/videos/upload") Upload Video
-        main 
-            block content
+
+            nav 
+                ul 
+                    li 
+                        a(href="/") Home
+                    li 
+                        a(href="/videos/upload") Upload Video
+    main 
+        block content
        
     include partials/footer

@@ -2,6 +2,12 @@ extend base
 
 block content 
     form(method="POST")
-        input(placeholder="Title", required, type="text", name="title")
-
+        input(placeholder="Title", required, type="text", name="title", maxlength=80)
+        input(name="description", placeholder="Description",required, type="text",minlength=20)
+        input(
+            name="hashtags",
+            placeholder="Hashtags, seperated by comma",
+            required,
+            type="text"
+        )
         input(type="submit" value="Upload Video")
