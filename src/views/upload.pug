@@ -1,6 +1,9 @@
 extend base
 
 block content 
+    if errorMessage 
+        span=errorMessage
+
     form(method="POST")
         input(placeholder="Title", required, type="text", name="title", maxlength=80)
         input(name="description", placeholder="Description",required, type="text",minlength=20)
