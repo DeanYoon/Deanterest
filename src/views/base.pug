@@ -17,10 +17,15 @@ html(lang="ko")
                         a(href="/videos/upload") Upload Video
                     li 
                         a(href="/search") Search Video
-                    li 
-                        a(href="/join") Join
-                    li 
-                        a(href="/login") Login
+                    if loggedIn 
+                        li 
+                            a(href="/logout") Log out
+
+                    else
+                        li 
+                            a(href="/join") Join
+                        li 
+                            a(href="/login") Login
     main 
         block content
        

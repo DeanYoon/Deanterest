@@ -4,7 +4,8 @@ import globalRouter from "./routers/globalRouter";
 import userRouter from "./routers/userRouters";
 import videoRouter from "./routers/videoRouters";
 import session from "express-session";
-
+import { localsMiddleware } from "./middlewares";
+import MongoStore from "connect-mongo";
 const app = express();
 const logger = morgan("short");
 app.use(logger);
@@ -17,11 +18,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "Helo!",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: "mongodb://127.0.0.1:27017/dinterest",
+    }),
   })
 );
 
+app.use((req, res, next) => {
+  req.sessionStore.all((error, sessions) => {
+    console.log(sessions);
+    next();
+  });
+});
+
+app.use(localsMiddleware);
 app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);

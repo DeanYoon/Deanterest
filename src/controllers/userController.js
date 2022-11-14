@@ -1,4 +1,5 @@
 import User from "../models/User";
+import bcrypt from "bcrypt";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
@@ -48,6 +49,7 @@ export const postLogin = async (req, res) => {
   const user = await User.findOne({
     username,
   });
+
   if (!user) {
     return res.status(400).render("login", {
       pageTitle,
@@ -62,7 +64,10 @@ export const postLogin = async (req, res) => {
     });
   }
 
-  return res.end();
+  req.session.loggedIn = true;
+  req.session.user = user;
+  console.log(req.session);
+  return res.redirect("/");
 };
 export const logout = (req, res) => res.send("Logout");
 export const see = (req, res) => {

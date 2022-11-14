@@ -2,6 +2,7 @@ extends base
 
 
 block content 
+    h3=errorMessage
     form(method="POST")
         input(name="email",placeholder="email", type="email",required)
         input(name="username",placeholder="username", type="text",required)
@@ -11,4 +12,3 @@ block content
         input(name="location",placeholder="location", type="text", required)
         input(type="submit" ,value="Join")
 
-    h3=errorMessage
