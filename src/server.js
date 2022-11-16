@@ -17,18 +17,20 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    secret: "Helo!",
+    secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      maxAge: 100000000,
+    },
     store: MongoStore.create({
-      mongoUrl: "mongodb://127.0.0.1:27017/dinterest",
+      mongoUrl: process.env.DB_URL,
     }),
   })
 );
 
 app.use((req, res, next) => {
   req.sessionStore.all((error, sessions) => {
-    console.log(sessions);
     next();
   });
 });

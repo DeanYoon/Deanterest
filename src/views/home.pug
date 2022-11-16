@@ -2,7 +2,7 @@ extends base
 include mixins/video
 
 block content 
-    h2 Welcome Home! 
+    h2 Welcome Home #{loggedIn? loggedInUser.username : "user"}! 
     ul 
         each video in videos 
            +video(video)

@@ -1,0 +1,12 @@
+extends base
+
+
+block content 
+    h3=errorMessage
+    form(method="POST")
+        input(name="email",placeholder="email", type="email",required, value=loggedInUser.email)
+        input(name="username",placeholder="username", type="text",required, value=loggedInUser.username)
+        input(name="name",placeholder="name", type="text",required, value=loggedInUser.name)
+        input(name="location",placeholder="location", type="text", required, value=loggedInUser.location)
+        input(type="submit" ,value="Join")
+
