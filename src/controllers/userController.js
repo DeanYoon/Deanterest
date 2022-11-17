@@ -1,7 +1,8 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
-export const getJoin = (req, res) => res.render("join", { pageTitle: "Join" });
+export const getJoin = (req, res) =>
+  res.render("users/join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
   const { email, username, password, password2, name, location } = req.body;
   const exists = await User.exists({
@@ -9,14 +10,14 @@ export const postJoin = async (req, res) => {
   });
 
   if (password !== password2) {
-    res.status(400).render("join", {
+    res.status(400).render("users/join", {
       pageTitle: "Join",
       errorMessage: "Password doesn't match",
     });
   }
 
   if (exists) {
-    return res.render("join", {
+    return res.render("users/join", {
       pageTitle: "Join",
       errorMessage: "This username/name/email is already taken",
     });
@@ -39,7 +40,7 @@ export const postJoin = async (req, res) => {
   return res.redirect("login");
 };
 export const getEdit = (req, res) => {
-  return res.render("edit-profile", { pageTitle: "Edit Profile" });
+  return res.render("users/edit-profile", { pageTitle: "Edit Profile" });
 };
 export const postEdit = async (req, res) => {
   const {
@@ -53,7 +54,7 @@ export const postEdit = async (req, res) => {
     $and: [{ $or: [{ username }, { email }] }, { _id: { $ne: _id } }],
   });
   if (userExists) {
-    return res.render("edit-profile", {
+    return res.render("users/edit-profile", {
       pageTitle: "Edit Profile",
       errorMessage: "username or email already exists",
     });
@@ -74,10 +75,10 @@ export const postEdit = async (req, res) => {
 
   req.session.user = updatedUser;
 
-  return res.redirect("/users/edit");
+  return res.redirect("edit");
 };
 export const getLogin = (req, res) => {
-  res.render("login", { pageTitle: "Login Page" });
+  res.render("users/login", { pageTitle: "Login Page" });
 };
 export const postLogin = async (req, res) => {
   const { username, password } = req.body;
@@ -88,14 +89,14 @@ export const postLogin = async (req, res) => {
   });
 
   if (!user) {
-    return res.status(400).render("login", {
+    return res.status(400).render("users/login", {
       pageTitle,
       errorMessage: "This username doesn't exists",
     });
   }
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) {
-    return res.status(400).render("login", {
+    return res.status(400).render("users/login", {
       pageTitle,
       errorMessage: "Wrong Password!",
     });
@@ -179,7 +180,7 @@ export const finishGithubLogin = async (req, res) => {
         username: userData.login,
         password: "",
         location: userData.location,
-        sicialOnly: true,
+        socialOnly: true,
         name: userData.name,
       });
     }
@@ -189,4 +190,14 @@ export const finishGithubLogin = async (req, res) => {
   } else {
     return res.redirect("/login");
   }
+};
+
+export const getChangePassword = (req, res) => {
+  return res.render("users/change-password", {
+    pageTitle: "Change Password",
+  });
+};
+export const postChangePassword = (req, res) => {
+  //send notification
+  return res.redirect("/");
 };

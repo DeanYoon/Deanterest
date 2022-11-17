@@ -1,4 +1,4 @@
-extends base
+extends ../base
 
 
 block content 
@@ -9,4 +9,7 @@ block content
         input(name="name",placeholder="name", type="text",required, value=loggedInUser.name)
         input(name="location",placeholder="location", type="text", required, value=loggedInUser.location)
         input(type="submit" ,value="Join")
-
+    
+        if !loggedInUser.socialOnly
+            hr
+            a(href="change-password") Change Password &rarr;
