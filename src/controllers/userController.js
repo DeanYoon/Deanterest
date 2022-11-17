@@ -1,6 +1,7 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
+import { redirect } from "express/lib/response";
 export const getJoin = (req, res) =>
   res.render("users/join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
@@ -179,7 +180,7 @@ export const finishGithubLogin = async (req, res) => {
         email: emailObject.email,
         username: userData.login,
         password: "",
-        location: userData.location,
+        location: userData.location ? userData.location : "Undefined",
         socialOnly: true,
         name: userData.name,
       });
@@ -193,11 +194,43 @@ export const finishGithubLogin = async (req, res) => {
 };
 
 export const getChangePassword = (req, res) => {
+  if (req.session.user.socialOnly === true) {
+    console.log("banned");
+    return redirect("/");
+  }
+
   return res.render("users/change-password", {
     pageTitle: "Change Password",
   });
 };
-export const postChangePassword = (req, res) => {
+export const postChangePassword = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { oldPassword, newPassword, newPasswordConfirmation },
+  } = req;
+
+  const user = await User.findById(_id);
+  const ok = await bcrypt.compare(oldPassword, user.password);
+
+  if (!ok) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "Current password is incorrect",
+    });
+  }
+
+  if (newPassword !== newPasswordConfirmation) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "Password doesn't match",
+    });
+  }
+
+  user.password = newPassword;
+  await user.save();
+
   //send notification
-  return res.redirect("/");
+  return res.redirect("/users/logout");
 };
