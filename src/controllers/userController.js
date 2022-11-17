@@ -50,7 +50,7 @@ export const postEdit = async (req, res) => {
   } = req;
 
   const userExists = await User.exists({
-    $or: [{ username }, { email }],
+    $and: [{ $or: [{ username }, { email }] }, { _id: { $ne: _id } }],
   });
   if (userExists) {
     return res.render("edit-profile", {
