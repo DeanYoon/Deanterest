@@ -20,9 +20,11 @@ html(lang="ko")
                         li 
                             a(href="/users/logout") Log out
                         li 
-                            a(href="/users/edit") #{loggedInUser.name}'s Profile
+                            a(href="/users/edit") #{loggedInUser.name}'s Profile Edit
                         li 
                             a(href="/videos/upload") Upload Video
+                        li 
+                            a(href=`/users/${loggedInUser._id}`) My Videos
 
                     else
                         li 

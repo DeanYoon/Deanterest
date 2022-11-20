@@ -1,4 +1,6 @@
 import User from "../models/User";
+import Video from "../models/Video";
+
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 import { redirect } from "express/lib/response";
@@ -61,7 +63,6 @@ export const postEdit = async (req, res) => {
       errorMessage: "username or email already exists",
     });
   }
-  console.log(file);
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
@@ -114,9 +115,18 @@ export const logout = (req, res) => {
   req.session.destroy();
   return res.redirect("/");
 };
-export const see = (req, res) => {
-  console.log(req.params);
-  res.send(req.params.id);
+
+export const see = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id).populate("videos");
+  console.log(user);
+  if (!user) {
+    res.status(404).render("404", { pageTitle: "User not Found" });
+  }
+  return res.render("./users/profile", {
+    pageTitle: user.name,
+    user,
+  });
 };
 
 export const startGithubLogin = (req, res) => {
