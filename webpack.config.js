@@ -13,7 +13,7 @@ module.exports = {
   watch: true,
 
   output: {
-    filename: "xxxx/main.js",
+    filename: "js/main.js",
     path: path.resolve(__dirname, "assets"),
     clean: true,
   },

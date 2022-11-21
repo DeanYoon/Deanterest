@@ -1,0 +1,31 @@
+header 
+    a(href="/").header__logo
+        i.fab.fa-pinterest
+        span Deanterest
+    nav 
+        ul 
+          
+            li 
+                a(href="/search")
+                    i.fas.fa-search
+            if loggedIn 
+                li 
+                    a(href="/users/logout") Log out
+                li 
+                    a(href="/users/edit") #{loggedInUser.name}'s Profile Edit
+                li 
+                    a(href="/videos/upload") Upload Video
+                li 
+                    a(href=`/users/${loggedInUser._id}`)
+                        if loggedInUser.avatarUrl === ""
+                            span ☺
+                        else 
+                            img.header__avatar(src="/" + loggedInUser.avatarUrl)
+
+            else
+                li 
+                    a(href="/join") Join
+                li 
+                    a(href="/login").header__btn
+                        i.far.fa-user
+                        span 로그인

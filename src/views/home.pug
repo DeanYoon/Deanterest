@@ -2,9 +2,27 @@ extends base
 include mixins/video
 
 block content 
-    h2 Welcome Home #{loggedIn? loggedInUser.username : "user"}! 
-    ul 
+    div.video__grid
         each video in videos 
-           +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+            +video(video)
+        
         else 
-            li sorry nothing found
+            span.empty__message No Vieos Found

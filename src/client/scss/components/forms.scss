@@ -1,0 +1,35 @@
+form {
+  background-color: rgba(0, 0, 0, 0.465);
+  padding: 30px;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+
+input {
+  all: unset;
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: black;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: white;
+  display: flex;
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+input[type="submit"],
+.social__btn {
+  background-color: red;
+  border: none;
+  height: 20px;
+  display: block;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  &:hover {
+    background-color: rgb(255, 74, 74);
+  }
+}

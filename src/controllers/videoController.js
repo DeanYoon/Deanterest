@@ -3,7 +3,9 @@ import User from "../models/User";
 import res from "express/lib/response";
 export const home = async (req, res) => {
   try {
-    const videos = await Video.find({}).sort({ createdAt: "desc" });
+    const videos = await Video.find({})
+      .sort({ createdAt: "desc" })
+      .populate("owner");
     return res.render("home", { pageTitle: "Home", videos });
   } catch {
     return res.render("server-error");
@@ -42,19 +44,19 @@ export const postEdit = async (req, res) => {
   const {
     user: { _id },
   } = req.session;
-  const video = await Video.exists({ _id: id }); // boolean value
+  const video = await Video.findById({ _id: id }); // boolean value
   if (!video) {
     return res.render("404", { pageTitle: "Video Not Found." });
   }
-  if (String(video.owner) !== _id) {
+  if (String(video.owner) !== String(_id)) {
     return res.status(403).redirect("/");
   }
+
   await Video.findByIdAndUpdate(id, {
     title,
     description,
     hashtags: Video.formatHashtags(hashtags),
   });
-
   return res.redirect(`/videos/${id}`);
 };
 
@@ -117,7 +119,7 @@ export const search = async (req, res) => {
       title: {
         $regex: new RegExp(keyword, "i"),
       },
-    });
+    }).populate("owner");
   }
 
   return res.render("search", { pageTitle: "Search", videos });
