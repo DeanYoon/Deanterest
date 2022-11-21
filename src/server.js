@@ -40,6 +40,6 @@ app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
 app.use("/uploads", express.static("uploads"));
-app.use("/assets", express.static("assets"));
+app.use("/static", express.static("assets"));
 
 export default app;
