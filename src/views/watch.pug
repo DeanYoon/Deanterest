@@ -1,13 +1,23 @@
 extends base
 
 block content
-    video(src="/"+video.fileUrl, controls)
+    div#videoContainer
+        video(src="/"+video.fileUrl)
+        div#videoControls
+            button#play
+                i.fas.fa-play
+            span#currentTime 00:00
+            input(type="range", step="0.01", value=0, min="0")#timeline
+            span#totalTime 00:00
+            button#mute
+                i.fas.fa-volume-up
+            input(type="range",value=0.5 ,step="0.01",min="0", max="1")#volume.hidden
+            div 
+                button#fullScreen
+                    i.fas.fa-expand-alt
     div
-        button#play Play 
-        button#mute Mute 
-        span#time 00:00/00:00
-        input(type="range", step="0.01",min="0", max="1")#volume
-    //
+    
+    //  
         div
             p= video.description
             p=video.hashtags
