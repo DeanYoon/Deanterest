@@ -10,14 +10,18 @@ header {
       color: white;
     }
   }
-  ul {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    li {
-      margin-left: 25px;
-      font-size: 15px;
-      text-transform: uppercase;
+  nav {
+    width: 100%;
+
+    ul {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      li {
+        margin-left: 25px;
+        font-size: 15px;
+        text-transform: uppercase;
+      }
     }
   }
   .header__btn {

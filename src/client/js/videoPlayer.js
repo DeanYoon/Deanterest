@@ -30,7 +30,6 @@ const handlePlay = () => {
   playIcon.className = video.paused ? "fas fa-play" : "fas fa-pause";
 };
 const handleMute = () => {
-  console.log(muteIcon);
   if (video.muted) {
     video.muted = false;
   } else {
@@ -82,10 +81,7 @@ const handleFullscreen = () => {
 const hideControls = () => videoControls.classList.remove("showing");
 
 const handleMouseMove = () => {
-  if (controlsTimeout) {
-    clearTimeout(controlsTimeout);
-    controlsTimeout = null;
-  }
+  console.log(controlsMovementTimeout);
   if (controlsMovementTimeout) {
     clearTimeout(controlsMovementTimeout);
     controlsMovementTimeout = null;
@@ -93,13 +89,13 @@ const handleMouseMove = () => {
   videoControls.classList.add("showing");
   controlsMovementTimeout = setTimeout(hideControls, 3000);
 };
+
 const handleMouseLeave = () => {
-  controlsTimeout = setTimeout(hideControls, 3000);
+  controlsMovementTimeout = setTimeout(hideControls, 3000);
 };
 
 const handleByKeyboard = (event) => {
   if (event.code == "Escape") {
-    console.log("now!");
     document.exitFullscreen();
     fullscreen = document.fullscreenElement;
     fullScreenIcon.className = "fas fa-expand-alt";
@@ -108,20 +104,44 @@ const handleByKeyboard = (event) => {
 
 const handleExample = (event) => {
   const fullscreen = document.fullscreenElement;
-  console.log(fullscreen);
   fullScreenIcon.className = fullscreen
     ? "fas fa-compress-alt"
     : "fas fa-expand-alt";
 };
 
-const unhideVolume = () => volumeRange.classList.remove("hidden");
-const hideVolume = () => volumeRange.classList.add("hidden");
+const handleKey = (event) => {
+  if (event.code === "KeyF") {
+    handleFullscreen();
+  } else if (event.code == "Space") {
+    handlePlay();
+  } else if (event.code == "Escape") {
+    document.exitFullscreen();
+  } else if (event.code == "KeyM") {
+    handleMute();
+  } else if (event.code == "ArrowRight") {
+    handleMouseMove();
+    video.currentTime += 1;
+    timeline.value += 1;
+  } else if (event.code == "ArrowLeft") {
+    handleMouseMove();
+    video.currentTime -= 1;
+    timeline.value -= 1;
+  }
+};
+
+const unhideVolume = () => {
+  setTimeout(volumeRange.classList.remove("hidden"), 10000);
+};
+const hideVolume = () => {
+  volumeRange.classList.add("hidden");
+};
 
 video.addEventListener("click", handlePlay);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("mousemove", handleMouseMove);
 video.addEventListener("mouseleave", handleMouseLeave);
+video.addEventListener("dblclick", handleFullscreen);
 playBtn.addEventListener("click", handlePlay);
 muteBtn.addEventListener("click", handleMute);
 muteBtn.addEventListener("mouseover", unhideVolume);
@@ -130,6 +150,8 @@ volumeRange.addEventListener("mouseover", unhideVolume);
 volumeRange.addEventListener("mouseleave", hideVolume);
 volumeRange.addEventListener("input", handleVolume);
 timeline.addEventListener("input", handleTimelineChange);
+timeline.addEventListener("mousemove", handleMouseMove);
 fullScreenBtn.addEventListener("click", handleFullscreen);
-window.addEventListener("keyup", handleByKeyboard);
+
 document.addEventListener("fullscreenchange", handleExample);
+window.addEventListener("keydown", handleKey);

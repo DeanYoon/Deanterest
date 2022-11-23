@@ -14,7 +14,12 @@
     #videoControls {
       width: 100%;
       #timeline {
-        width: 90%;
+        width: 80%;
+      }
+      #volume {
+        position: absolute;
+        right: 30px;
+        cursor: pointer;
       }
     }
   }
@@ -37,12 +42,18 @@
     cursor: pointer;
     #timeline {
       width: 50%;
+      cursor: pointer;
+      height: 15px;
+      background-color: transparent;
     }
     #volume {
       position: absolute;
-      bottom: 20px;
+      bottom: 70px;
       right: -12px;
-      -webkit-appearance: slider-vertical;
+      transform: rotate(-90deg);
+      height: 25px;
+      background-color: transparent;
+      cursor: pointer;
     }
 
     button {
@@ -58,4 +69,32 @@
 }
 .showing {
   display: flex !important;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 5px;
+  background: #ddd;
+  border: none;
+  border-radius: 10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: white;
+  margin-top: -5px;
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]:focus::-webkit-slider-runnable-track {
 }
