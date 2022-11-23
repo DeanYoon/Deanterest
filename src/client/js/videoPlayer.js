@@ -81,7 +81,6 @@ const handleFullscreen = () => {
 const hideControls = () => videoControls.classList.remove("showing");
 
 const handleMouseMove = () => {
-  console.log(controlsMovementTimeout);
   if (controlsMovementTimeout) {
     clearTimeout(controlsMovementTimeout);
     controlsMovementTimeout = null;
@@ -136,12 +135,21 @@ const hideVolume = () => {
   volumeRange.classList.add("hidden");
 };
 
+const handleEnded = async () => {
+  playIcon.className = video.paused ? "fas fa-play" : "fas fa-pause";
+  const { id } = videoContainer.dataset;
+  await fetch(`/api/videos/${id}/view`, {
+    method: "POST",
+  });
+};
+
 video.addEventListener("click", handlePlay);
 video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("mousemove", handleMouseMove);
 video.addEventListener("mouseleave", handleMouseLeave);
 video.addEventListener("dblclick", handleFullscreen);
+video.addEventListener("ended", handleEnded);
 playBtn.addEventListener("click", handlePlay);
 muteBtn.addEventListener("click", handleMute);
 muteBtn.addEventListener("mouseover", unhideVolume);
