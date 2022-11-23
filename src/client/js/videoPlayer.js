@@ -17,6 +17,7 @@ let controlsTimeout = null;
 let volumeValue = 0.5;
 let controlsMovementTimeout = null;
 let fullscreen = document.fullscreenElement;
+let textarea = false;
 
 video.volume = volumeValue;
 
@@ -57,6 +58,13 @@ const handleLoadedMetadata = () => {
   totalTime.innerText = formatTime(Math.floor(video.duration));
   timeline.max = Math.floor(video.duration);
 };
+/*
+if (video.readyState >= 2) {
+  console.log(video.readyState);
+}
+function getmetadata() {
+  handleLoadedMetadata();
+} 중간중간 00:00 으로 뜰때*/
 
 const handleTimeUpdate = () => {
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
@@ -109,22 +117,24 @@ const handleExample = (event) => {
 };
 
 const handleKey = (event) => {
-  if (event.code === "KeyF") {
-    handleFullscreen();
-  } else if (event.code == "Space") {
-    handlePlay();
-  } else if (event.code == "Escape") {
-    document.exitFullscreen();
-  } else if (event.code == "KeyM") {
-    handleMute();
-  } else if (event.code == "ArrowRight") {
-    handleMouseMove();
-    video.currentTime += 1;
-    timeline.value += 1;
-  } else if (event.code == "ArrowLeft") {
-    handleMouseMove();
-    video.currentTime -= 1;
-    timeline.value -= 1;
+  if (!textarea) {
+    if (event.code === "KeyF") {
+      handleFullscreen();
+    } else if (event.code == "Space") {
+      handlePlay();
+    } else if (event.code == "Escape") {
+      document.exitFullscreen();
+    } else if (event.code == "KeyM") {
+      handleMute();
+    } else if (event.code == "ArrowRight") {
+      handleMouseMove();
+      video.currentTime += 1;
+      timeline.value += 1;
+    } else if (event.code == "ArrowLeft") {
+      handleMouseMove();
+      video.currentTime -= 1;
+      timeline.value -= 1;
+    }
   }
 };
 
@@ -141,6 +151,14 @@ const handleEnded = async () => {
   await fetch(`/api/videos/${id}/view`, {
     method: "POST",
   });
+};
+const windowClicked = (e) => {
+  const target = e.target.localName;
+  if (target === "textarea") {
+    textarea = true;
+  } else {
+    textarea = false;
+  }
 };
 
 video.addEventListener("click", handlePlay);
@@ -163,3 +181,4 @@ fullScreenBtn.addEventListener("click", handleFullscreen);
 
 document.addEventListener("fullscreenchange", handleExample);
 window.addEventListener("keydown", handleKey);
+window.addEventListener("click", windowClicked);

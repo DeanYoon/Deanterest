@@ -16,27 +16,27 @@ block content
             div 
                 button#fullScreen
                     i.fas.fa-expand-alt
-    div
+
+    div.video__data
+        p.video__title=video.title
+        small.video__owner Uploaded by 
+            a(href=`/users/${video.owner._id}`)=video.owner.name
+        small.video__createdAt=new Date(video.createdAt).toLocalDateString
     
-    //  
-        div
-            p= video.description
-            p=video.hashtags
-            small= video.createdAt
-        
-            h5 #{ video.views } #{ video.views ===1 ? "view" : "views" }
-        div 
-            small Uploaded by 
-                a(href=`/users/${video.owner._id}`)=video.owner.name
         hr
         if String(video.owner._id) === String(loggedInUser._id)
             a(href=`${video.id}/edit`) Edit Video &rarr;
             br
             a(href=`${video.id}/delete`) Delete Video &rarr;
-            
-
+    if loggedIn  
+        div.video__comments
+            form.video__comment-form#commentForm
+                textarea( placeholder="Write a nice comment")
+                button Add Comment
 
 block scripts 
     script(src="/static/js/videoPlayer.js") 
+    if loggedIn
+        script(src="/static/js/commentSection.js") 
 
     
