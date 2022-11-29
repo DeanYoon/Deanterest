@@ -36,6 +36,11 @@ app.use((req, res, next) => {
   });
 });
 
+app.use((req, res, next) => {
+  res.header("Cross-Origin-Embedder-Policy", "credentialless");
+  res.header("Cross-Origin-Opener-Policy", "same-origin");
+  next();
+}); // to solve error of ffmpeg
 app.use(localsMiddleware);
 app.use("/", globalRouter);
 app.use("/users", userRouter);

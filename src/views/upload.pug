@@ -3,13 +3,15 @@ extend base
 block content 
     div 
         video#preview
-        button#startBtn Start Recording
+        button#actionBtn Start Recording
     if errorMessage 
         span=errorMessage
 
     form(method="POST", enctype="multipart/form-data")
         label(for="video") Video File
         input(type="file", accept="video/*", required, id="video", name="video")
+        label(for="thumb") Thumbnail File
+        input(type="file", accept="video/*", required, id="thumb", name="thumb")
         input(placeholder="Title", required, type="text", name="title", maxlength=80)
         input(name="description", placeholder="Description",required, type="text",minlength=20)
         input(
@@ -22,3 +24,5 @@ block content
 
 block scripts
     script(src="/static/js/recorder.js")
+
+
