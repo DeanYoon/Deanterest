@@ -9,7 +9,7 @@ export const home = async (req, res) => {
     console.log(videos[0].thumbUrl);
     return res.render("home", { pageTitle: "Home", videos });
   } catch {
-    return res.render("server-error");
+    return res.render("404");
   }
 };
 
