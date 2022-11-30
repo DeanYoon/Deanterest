@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import globalRouter from "./routers/globalRouter";
+import flash from "express-flash";
 import userRouter from "./routers/userRouters";
 import videoRouter from "./routers/videoRouters";
 import apiRouter from "./routers/apiRouter";
@@ -15,6 +16,7 @@ app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use(
   session({
@@ -41,6 +43,8 @@ app.use((req, res, next) => {
   res.header("Cross-Origin-Opener-Policy", "same-origin");
   next();
 }); // to solve error of ffmpeg
+
+app.use(flash());
 app.use(localsMiddleware);
 app.use("/", globalRouter);
 app.use("/users", userRouter);

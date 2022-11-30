@@ -112,7 +112,10 @@ export const postLogin = async (req, res) => {
   return res.redirect("/");
 };
 export const logout = (req, res) => {
-  req.session.destroy();
+  req.session.user = null;
+  req.session.loggedIn = false;
+  req.flash("info", "Bye bye");
+
   return res.redirect("/");
 };
 
@@ -124,13 +127,15 @@ export const see = async (req, res) => {
       path: "owner",
     },
   });
-  console.log(user);
+  const videos = user.videos;
+  console.log(user.videos[0].thumbUrl);
   if (!user) {
     res.status(404).render("404", { pageTitle: "User not Found" });
   }
   return res.render("./users/profile", {
     pageTitle: user.name,
     user,
+    videos,
   });
 };
 
@@ -212,7 +217,7 @@ export const finishGithubLogin = async (req, res) => {
 
 export const getChangePassword = (req, res) => {
   if (req.session.user.socialOnly === true) {
-    console.log("banned");
+    req.flash("error", "Can't change password");
     return redirect("/");
   }
 
@@ -247,6 +252,7 @@ export const postChangePassword = async (req, res) => {
 
   user.password = newPassword;
   await user.save();
+  req.flash("info", "Password updated");
 
   //send notification
   return res.redirect("/users/logout");

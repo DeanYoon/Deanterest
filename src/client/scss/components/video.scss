@@ -3,10 +3,10 @@
 .video-mixin {
   .video-mixin__thumb {
     display: block;
-    height: 150px;
+    height: 450px;
     width: 280px;
-    background-color: ivory;
     border-radius: 15px;
+    object-fit: cover;
   }
 
   .video-mixin__data {

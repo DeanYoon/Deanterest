@@ -1,0 +1,19 @@
+#videoRecorder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  #actionBtn {
+    margin: 30px 0;
+    width: 200px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: white;
+    color: red;
+    border: 1px solid black;
+    &:disabled,
+    &:hover {
+      background-color: gray;
+    }
+  }
+}

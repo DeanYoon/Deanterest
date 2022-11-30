@@ -1,3 +1,5 @@
+include mixins/messages
+
 doctype html 
 
 html(lang="ko")
@@ -6,7 +8,12 @@ html(lang="ko")
         link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
         link(rel="stylesheet", href="/static/css/styles.css")
         link(rel="icon" href="https://www.shareicon.net/data/128x128/2016/07/06/57056_pinterest_10000x10000.png")
-    body 
+    body
+        if messages.error 
+           +message("error",messages.error)
+        if messages.info 
+            +message("info",messages.info)
+
         include partials/header
         main 
             block content

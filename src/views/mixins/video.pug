@@ -1,8 +1,8 @@
 mixin video(info)
-    div.video-mixin
-        a(href=`/videos/${info.id}`).video-mixin__thumb
+    a(href=`/videos/${info.id}`).video-mixin
+        img.video-mixin__thumb(src=info.thumbUrl)
         div.video-mixin__data
-            a(href=`/videos/${info.id}`).video-mixin__title=info.title
+            span.video-mixin__title=info.title
             div.video-mixin__meta 
-                a(href=`/users/${info.owner._id}`) #{info.owner.name?info.owner.name : user.name }
-                a 조회수 #{info.meta.views} 회
+                span #{info.owner.name?info.owner.name : user.name }
+                span 조회수 #{info.meta.views} 회

@@ -6,12 +6,8 @@ block content
         img(src="/"+user.avatarUrl).avatar
         h3=user.name
     div.video__grid
-        each video in user.videos 
+        each video in videos 
             +video(video)
-            +video(video)
-            +video(video)
-            +video(video)
-            +video(video)
-            +video(video)
+   
         else 
-            h1 no video found
+            span.empty__message No Videos Found

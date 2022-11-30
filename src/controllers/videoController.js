@@ -6,6 +6,7 @@ export const home = async (req, res) => {
     const videos = await Video.find({})
       .sort({ createdAt: "desc" })
       .populate("owner");
+    console.log(videos[0].thumbUrl);
     return res.render("home", { pageTitle: "Home", videos });
   } catch {
     return res.render("server-error");
@@ -33,6 +34,7 @@ export const getEdit = async (req, res) => {
   }
   console.log(String(video.owner), _id);
   if (String(video.owner) !== _id) {
+    req.flash("error", "Not authorized");
     return res.status(403).redirect("/");
   }
   res.render("edit", { pageTitle: `Editing `, video });
@@ -49,6 +51,8 @@ export const postEdit = async (req, res) => {
     return res.render("404", { pageTitle: "Video Not Found." });
   }
   if (String(video.owner) !== String(_id)) {
+    req.flash("error", "Not authorized");
+
     return res.status(403).redirect("/");
   }
 
@@ -68,7 +72,8 @@ export const postUpload = async (req, res) => {
   const {
     user: { _id },
   } = req.session;
-  const { path } = req.file;
+
+  const { video, thumb } = req.files;
   const { title, description, hashtags } = req.body;
   try {
     const newVideo = await Video.create({
@@ -76,7 +81,8 @@ export const postUpload = async (req, res) => {
       description,
       owner: _id,
       createdAt: Date.now(),
-      fileUrl: path,
+      fileUrl: video[0].path,
+      thumbUrl: thumb[0].path,
       hashtags: Video.formatHashtags(hashtags),
     });
     const user = await User.findById(_id);
@@ -103,6 +109,8 @@ export const deleteVideo = async (req, res) => {
     return res.status(404).render("404", { pageTitle: "Video not found" });
   }
   if (String(video.owner) !== _id) {
+    req.flash("error", "Not authorized");
+
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndDelete(id);
@@ -137,7 +145,8 @@ export const registerView = async (req, res) => {
 };
 
 export const createComment = (req, res) => {
-  console.log(req.body);
   console.log(req.params);
+  console.log(req.body);
+  console.log(req.session.user);
   return res.end();
 };
