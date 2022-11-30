@@ -1,6 +1,6 @@
 mixin video(info)
     a(href=`/videos/${info.id}`).video-mixin
-        img.video-mixin__thumb(src=info.thumbUrl)
+        img.video-mixin__thumb(src='/'+info.thumbUrl)
         div.video-mixin__data
             span.video-mixin__title=info.title
             div.video-mixin__meta 
