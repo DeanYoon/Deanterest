@@ -98,3 +98,58 @@ input[type="range"]:focus {
 
 input[type="range"]:focus::-webkit-slider-runnable-track {
 }
+
+.video__comments {
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 20px;
+  .video__comment {
+    padding: 5px;
+    border-radius: 9999px;
+    background-color: white;
+    color: black;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    a {
+      display: flex;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 1000;
+      margin-right: 20px;
+      img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50px;
+        margin-right: 10px;
+      }
+    }
+
+    div {
+      position: absolute;
+      right: -80px;
+      padding: 5px;
+      background-color: white;
+      border-radius: 5px;
+      button {
+        display: block;
+        width: 100%;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        &:hover {
+          background-color: rgb(196, 196, 196);
+          border-radius: 2px;
+        }
+      }
+    }
+    i {
+      cursor: pointer;
+    }
+  }
+}

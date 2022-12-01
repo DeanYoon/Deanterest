@@ -1,5 +1,6 @@
 import Video from "../models/Video";
 import User from "../models/User";
+import Comment from "../models/Comment";
 import res from "express/lib/response";
 export const home = async (req, res) => {
   try {
@@ -15,12 +16,16 @@ export const home = async (req, res) => {
 
 export const watch = async (req, res) => {
   const id = req.params.id;
-  const video = await Video.findById(id).populate("owner");
-  console.log(video);
+  const video = await Video.findById(id)
+    .populate("owner")
+    .populate("comments")
+    .populate("owner");
+  const comments = await Comment.find({ video: id }).populate("owner");
+  console.log(comments);
   if (!video) {
     return res.status(400).render("404", { pageTitle: "Video Not Found." });
   }
-  return res.render("watch", { pageTitle: video.title, video });
+  return res.render("watch", { pageTitle: video.title, video, comments });
 };
 
 export const getEdit = async (req, res) => {
@@ -155,7 +160,12 @@ export const createComment = async (req, res) => {
   if (!video) {
     return res.sendStatus(404);
   }
-  video.comment.push(text);
-  await video.save();
-  return res.sendStatus(200);
+  const comment = await Comment.create({
+    text,
+    owner: user._id,
+    video: id,
+  });
+  video.comments.push(comment._id);
+  video.save();
+  return res.status(201).json({ newCommentId: comment._id });
 };

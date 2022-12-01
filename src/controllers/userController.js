@@ -128,7 +128,6 @@ export const see = async (req, res) => {
     },
   });
   const videos = user.videos;
-  console.log(user.videos[0].thumbUrl);
   if (!user) {
     res.status(404).render("404", { pageTitle: "User not Found" });
   }
