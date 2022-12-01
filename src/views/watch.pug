@@ -42,11 +42,12 @@ block content
                         img.commentAvatar(src="/"+comment.owner.avatarUrl)
                         span.commentOwner=comment.owner.name
                     span #{comment.text}
-                    if String(comment._id) !== String(loggedInUser._id)
-                        i.fas.fa-ellipsis-h
+                    i.fas.fa-ellipsis-h
+                    if String(comment.owner._id) === String(loggedInUser._id)
+
                         div.hidden#buttonBox 
-                            button#editComment(href) Edit 
-                            button#deleteComment Delete
+                            a(href=`${video.id}/comment/edit/${comment._id}`)#editComment Edit 
+                            a(href=`${video.id}/comment/delete/${comment._id}`)#deleteComment Delete
 
 
 

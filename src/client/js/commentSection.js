@@ -76,7 +76,6 @@ const handleMoreBtn = (event) => {
   li = event.target.parentElement;
   const buttons = li.querySelector("div");
   buttons.classList.toggle(HIDDEN);
-  console.log("click");
 };
 
 const addHidden = (event) => {
