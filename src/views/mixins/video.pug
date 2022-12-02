@@ -1,8 +1,8 @@
 mixin video(info)
-    a(href=`/videos/${info.id}`).video-mixin
-        img.video-mixin__thumb(src='/'+info.thumbUrl)
-        div.video-mixin__data
-            span.video-mixin__title=info.title
-            div.video-mixin__meta 
-                span #{info.owner.name?info.owner.name : user.name }
-                span 조회수 #{info.meta.views} 회
+    div.video
+        a(href=`/videos/${info.id}`).video-mixin
+            img.video-mixin__thumb(src='/'+info.thumbUrl)
+        
+        a(href=`/users/${info.owner._id}`).video-user
+            img.videoAvatar(src="/"+info.owner.avatarUrl)
+            span #{info.owner.name?info.owner.name : user.name }

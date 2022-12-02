@@ -3,14 +3,17 @@ import {
   registerView,
   createComment,
   deleteComment,
+  getCommentEdit,
+  postCommentEdit,
 } from "../controllers/videoController";
 
 const apiRouter = express.Router();
 
 apiRouter.post("/videos/:id([0-9a-f]{24})/view", registerView);
 apiRouter.post("/videos/:id([0-9a-f]{24})/comment", createComment);
-apiRouter.get(
-  "/videos/:id([0-9a-f]{24})/comment/delete/:id([0-9a-f]{24})",
-  deleteComment
-);
+apiRouter.get("/videos/comment/:id([0-9a-f]{24})/delete", deleteComment);
+apiRouter
+  .route("/videos/comment/:id([0-9a-f]{24})/edit")
+  .post(getCommentEdit)
+  .get(postCommentEdit);
 export default apiRouter;

@@ -39,8 +39,7 @@ const addComment = (text, id) => {
 const handleSubmit = async (event) => {
   event.preventDefault();
   const textarea = form.querySelector("textarea");
-  const button = form.querySelector("button");
-  const text = textarea.value;
+  const text = textarea.value.trim();
   const videoId = videoContainer.dataset.id;
   if (!text) {
     return;
@@ -81,11 +80,6 @@ const handleMoreBtn = (event) => {
 const addHidden = (event) => {
   li = event.target.parentElement.parentElement;
   const buttons = li.querySelector("#buttonBox");
-  currentClickedCommentBox = li.dataset.id;
-  /* boxes.forEach((box) => {
-    box.className = HIDDEN;
-  });*/
-  //console.log(currentClickedCommentBox);
 };
 
 if (form) {

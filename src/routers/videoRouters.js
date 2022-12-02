@@ -6,6 +6,7 @@ import {
   postUpload,
   deleteVideo,
   postEdit,
+  deleteComment,
 } from "../controllers/videoController";
 import {
   publicOnlyMiddleware,

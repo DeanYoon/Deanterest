@@ -46,8 +46,8 @@ block content
                     if String(comment.owner._id) === String(loggedInUser._id)
 
                         div.hidden#buttonBox 
-                            a(href=`${video.id}/comment/edit/${comment._id}`)#editComment Edit 
-                            a(href=`${video.id}/comment/delete/${comment._id}`)#deleteComment Delete
+                            a(href=`/api/videos/comment/${comment._id}/edit`)#editComment Edit 
+                            a(href=`/api/videos/comment/${comment._id}/delete`)#deleteComment Delete
 
 
 

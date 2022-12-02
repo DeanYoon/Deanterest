@@ -1,29 +1,36 @@
 //video mixin
-
-.video-mixin {
-  .video-mixin__thumb {
-    display: block;
-    height: 450px;
-    width: 280px;
-    border-radius: 15px;
-    object-fit: cover;
-  }
-
-  .video-mixin__data {
-    padding: 0px 15px;
+.video {
+  .video-mixin {
     display: flex;
     flex-direction: column;
-
-    .video-mixin__title {
-      display: flex;
-      margin: 10px 0;
-      font-size: 20px;
+    .video-mixin__thumb {
+      display: block;
+      width: 280px;
+      border-radius: 15px;
+      object-fit: cover;
     }
-    .video-mixin__meta {
-      a {
-        margin: 5px 0px;
-        display: block;
+
+    .video-mixin__data {
+      padding: 0px 15px;
+      display: flex;
+      flex-direction: column;
+
+      .video-mixin__title {
+        display: flex;
+        margin: 10px 0;
+        font-size: 20px;
       }
+    }
+  }
+  .video-user {
+    padding: 20px;
+    display: flex;
+
+    img {
+      width: 20px;
+      height: 20px;
+      border-radius: 30px;
+      margin-right: 10px;
     }
   }
 }
