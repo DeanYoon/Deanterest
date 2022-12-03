@@ -116,7 +116,7 @@ const handleStop = () => {
 
 const init = async () => {
   stream = await navigator.mediaDevices.getUserMedia({
-    video: { width: 1024, height: 576 },
+    video: { width: 1024, height: 576, reverse: true },
   });
   video.srcObject = stream;
   video.play();

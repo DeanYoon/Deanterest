@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  video {
+    transform: scaleX(-1);
+  }
   #actionBtn {
     margin: 30px 0;
     width: 200px;

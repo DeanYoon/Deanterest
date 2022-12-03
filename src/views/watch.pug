@@ -31,7 +31,7 @@ block content
     if loggedIn  
         div.video__add-comments
             form.video__comment-form#commentForm
-                textarea( placeholder="Write a nice comment")
+                textarea( placeholder="Write a nice comment", value=text)
                 button Add Comment
 
     div.video__comments
@@ -46,8 +46,8 @@ block content
                     if String(comment.owner._id) === String(loggedInUser._id)
 
                         div.hidden#buttonBox 
-                            a(href=`/api/videos/comment/${comment._id}/edit`)#editComment Edit 
-                            a(href=`/api/videos/comment/${comment._id}/delete`)#deleteComment Delete
+                            a()#editComment Edit 
+                            a()#deleteComment Delete
 
 
 
