@@ -39,7 +39,7 @@ block content
             each comment in comments.reverse()
                 li.video__comment(data-id=comment._id)
                     a(href=`/users/${comment.owner._id}`)
-                        img.commentAvatar(src="/"+comment.owner.avatarUrl)
+                        img.commentAvatar(src=comment.owner.avatarUrl)
                         span.commentOwner=comment.owner.name
                     span #{comment.text}
                     i.fas.fa-ellipsis-h
