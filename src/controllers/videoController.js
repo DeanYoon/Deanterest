@@ -87,8 +87,8 @@ export const postUpload = async (req, res) => {
       description,
       owner: _id,
       createdAt: Date.now(),
-      fileUrl: video[0].path,
-      thumbUrl: thumb[0].path,
+      fileUrl: video[0].location,
+      thumbUrl: thumb[0].location,
       hashtags: Video.formatHashtags(hashtags),
     });
     const user = await User.findById(_id);

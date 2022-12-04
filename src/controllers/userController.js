@@ -4,8 +4,9 @@ import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 import { redirect } from "express/lib/response";
-export const getJoin = (req, res) =>
-  res.render("users/join", { pageTitle: "Join" });
+export const getJoin = (req, res) => {
+  return res.render("users/join", { pageTitle: "Join" });
+};
 export const postJoin = async (req, res) => {
   const { email, username, password, password2, name, location } = req.body;
   const exists = await User.exists({
@@ -63,10 +64,11 @@ export const postEdit = async (req, res) => {
       errorMessage: "username or email already exists",
     });
   }
+
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.path : avatarUrl,
+      avatarUrl: file ? file.location : avatarUrl,
       name,
       email,
       username,
