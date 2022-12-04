@@ -8,7 +8,7 @@ export const home = async (req, res) => {
     const videos = await Video.find({})
       .sort({ createdAt: "desc" })
       .populate("owner");
-
+    console.log(videos);
     return res.render("home", { pageTitle: "Home", videos });
   } catch {
     return res.render("404");
@@ -81,14 +81,16 @@ export const postUpload = async (req, res) => {
 
   const { video, thumb } = req.files;
   const { title, description, hashtags } = req.body;
+  const isHeroku = process.env.NODE_ENV === "production";
+
   try {
     const newVideo = await Video.create({
       title,
       description,
       owner: _id,
       createdAt: Date.now(),
-      fileUrl: video[0].location,
-      thumbUrl: thumb[0].location,
+      fileUrl: isHeroku ? video[0].location : video[0].path,
+      thumbUrl: isHeroku ? thumb[0].location : video[0].path,
       hashtags: Video.formatHashtags(hashtags),
     });
     const user = await User.findById(_id);

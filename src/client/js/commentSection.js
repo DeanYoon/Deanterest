@@ -25,9 +25,9 @@ const addComment = (text, id, owner) => {
 
   userLink.href = `/users/${owner._id}`;
   userImg.className = "commentAvatar";
-  userImg.src = `/${owner.avatarUrl}`;
+  userImg.src = `${owner.avatarUrl}`;
   userName.className = "commentOwner";
-  userName.innerText = owner.username;
+  userName.innerText = owner.name;
 
   icon.className = "fas fa-ellipsis-h";
 
@@ -56,6 +56,7 @@ const addComment = (text, id, owner) => {
   newComment.className = "video__comment";
   videoComments.prepend(newComment);
   icon.addEventListener("click", handleMoreBtn);
+  deleteBtn.addEventListener("click", handleDeleteBtn);
 };
 
 const handleSubmit = async (event) => {
