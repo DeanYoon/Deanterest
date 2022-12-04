@@ -24,7 +24,10 @@ header
                         if loggedInUser.avatarUrl === ""
                             span ☺
                         else 
-                            img.header__avatar(src="/" + loggedInUser.avatarUrl)
+                            if loggedInUser.socialOnly 
+                                img.header__avatar(src=loggedInUser.avatarUrl)
+                            else 
+                                img.header__avatar(src="/" + loggedInUser.avatarUrl)
 
             else
                 li 
