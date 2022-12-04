@@ -9,7 +9,6 @@ export const home = async (req, res) => {
       .sort({ createdAt: "desc" })
       .populate("owner");
 
-    console.log(videos);
     return res.render("home", { pageTitle: "Home", videos });
   } catch {
     return res.render("404");
@@ -23,7 +22,7 @@ export const watch = async (req, res) => {
     .populate("comments")
     .populate("owner");
   const comments = await Comment.find({ video: id }).populate("owner");
-  console.log(comments);
+
   if (!video) {
     return res.status(400).render("404", { pageTitle: "Video Not Found." });
   }
@@ -193,7 +192,6 @@ export const deleteComment = async (req, res) => {
   await Comment.findByIdAndDelete(id);
   video.comments = video.comments.filter((comment) => String(comment) !== id);
   await video.save();
-  console.log(video);
 
   return res.sendStatus(200);
 };

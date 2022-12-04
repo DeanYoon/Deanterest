@@ -4,8 +4,12 @@
   "description": "![image](https://user-images.githubusercontent.com/68269605/199634468-c1a247dd-fe9b-4b30-a0f5-9c125c805ba5.png)",
   "main": "index.js",
   "scripts": {
+    "start": "node build/init.js",
+    "build:server": "babel src -d build",
+    "build": "npm run build:server && npm run build:assets",
+    "build:assets": "webpack --mode=production",
     "dev:server": "nodemon --exec babel-node src/init.js",
-    "dev:assets": "webpack --config webpack.config.js"
+    "dev:assets": "webpack --mode=development -w"
   },
   "repository": {
     "type": "git",
@@ -34,7 +38,8 @@
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.10",
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.5",
     "@babel/node": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
     "babel-loader": "^8.2.2",

@@ -82,7 +82,7 @@ const handleStart = async () => {
   recorder = new MediaRecorder(stream);
   recorder.ondataavailable = (event) => {
     videoFile = URL.createObjectURL(event.data);
-    console.log(event.data);
+
     video.srcObject = null;
     video.src = videoFile;
     video.loop = true;
