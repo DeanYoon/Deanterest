@@ -1,7 +1,7 @@
 mixin video(info)
     div.video
         a(href=`/videos/${info.id}`).video-mixin
-            img.video-mixin__thumb(src=info.thumbUrl)
+            img.video-mixin__thumb(info.thumbUrl)
         
         a(href=`/users/${info.owner._id}`).video-user
             img.videoAvatar(src=info.owner.avatarUrl)

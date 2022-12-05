@@ -3,11 +3,14 @@ const form = document.getElementById("commentForm");
 const icons = document.querySelectorAll(".video__comments ul li i");
 const editBtns = document.querySelectorAll("#editComment");
 const deleteBtns = document.querySelectorAll("#deleteComment");
+const commentLength = document.querySelector(".comment__length");
 
 const HIDDEN = "hidden";
 let currentClickedCommentBox;
 
 const addComment = (text, id, owner) => {
+  const comments = document.querySelectorAll(".video__comments ul li");
+
   const videoComments = document.querySelector(".video__comments ul");
   const newComment = document.createElement("li");
 
@@ -55,6 +58,7 @@ const addComment = (text, id, owner) => {
   span.innerText = `${text}`;
   newComment.className = "video__comment";
   videoComments.prepend(newComment);
+  console.log(newComment);
   icon.addEventListener("click", handleMoreBtn);
   deleteBtn.addEventListener("click", handleDeleteBtn);
 };

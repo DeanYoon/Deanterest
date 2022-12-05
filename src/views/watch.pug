@@ -1,55 +1,67 @@
 extends base
 
 block content
-    div#videoContainer(data-id=video._id)
-        video(src=video.fileUrl)
-        div#videoControls
-            button#play
-                i.fas.fa-play
-            span#currentTime 00:00
-            input(type="range", step="0.01", value=0, min="0")#timeline
-            span#totalTime 00:00
-            input(type="range",value=0.5 ,step="0.01",min="0", max="1")#volume.hidden
-            button#mute
-                i.fas.fa-volume-up
+    div#watch__video
+        div#videoContainer(data-id=video._id)
+            video(video.fileUrl)
+            div#videoControls
+                button#play
+                    i.fas.fa-play
+                span#currentTime 00:00
+                input(type="range", step="0.01", value=0, min="0")#timeline
+                span#totalTime 00:00
+                input(type="range",value=0.5 ,step="0.01",min="0", max="1")#volume.hidden
+                button#mute
+                    i.fas.fa-volume-up
+                
+                div 
+                    button#fullScreen
+                        i.fas.fa-expand-alt
+
+
+        div.videoInfo
+
+            div.video__data
+                small Uploaded by 
+                    a.video__owner(href=`/users/${video.owner._id}`)=video.owner.name
+                h1.video__title=video.title
+                h2.video__description=video.description
+                div.uploader__info
+                    img.uploader__avatar(src=video.owner.avatarUrl)
+                    span.uploader__name=video.owner.username
             
-            div 
-                button#fullScreen
-                    i.fas.fa-expand-alt
+                hr
+                if String(video.owner._id) === String(loggedInUser._id)
+                    a(href=`${video.id}/edit`) Edit Video &rarr;
+                    br
+                    a(href=`${video.id}/delete`) Delete Video &rarr;
+                
+            
 
-    div.video__data
-        p.video__title=video.title
-        small.video__owner Uploaded by 
-            a(href=`/users/${video.owner._id}`)=video.owner.name
-        small.video__createdAt=new Date(video.createdAt).toLocalDateString
-    
-        hr
-        if String(video.owner._id) === String(loggedInUser._id)
-            a(href=`${video.id}/edit`) Edit Video &rarr;
-            br
-            a(href=`${video.id}/delete`) Delete Video &rarr;
-    if loggedIn  
-        div.video__add-comments
-            form.video__comment-form#commentForm
-                textarea( placeholder="Write a nice comment", value=text)
-                button Add Comment
+            h1.comment__length #{comments.length} #{comments.length>1? "comments" : "comment"}
+            div.video__comments
+                ul 
+                    each comment in comments.reverse()
+                        li.video__comment(data-id=comment._id)
+                            a(href=`/users/${comment.owner._id}`)
+                                img.commentAvatar(comment.owner.avatarUrl)
+                                span.commentOwner=comment.owner.name
+                            span #{comment.text}
+                            i.fas.fa-ellipsis-h
+                            if String(comment.owner._id) === String(loggedInUser._id)
 
-    div.video__comments
-        ul 
-            each comment in comments.reverse()
-                li.video__comment(data-id=comment._id)
-                    a(href=`/users/${comment.owner._id}`)
-                        img.commentAvatar(src=comment.owner.avatarUrl)
-                        span.commentOwner=comment.owner.name
-                    span #{comment.text}
-                    i.fas.fa-ellipsis-h
-                    if String(comment.owner._id) === String(loggedInUser._id)
+                                div.hidden#buttonBox 
+                                    a()#editComment Edit 
+                                    a()#deleteComment Delete
 
-                        div.hidden#buttonBox 
-                            a()#editComment Edit 
-                            a()#deleteComment Delete
-
-
+            if loggedIn  
+                div.video__add-comments
+                    img(src=loggedInUser.avatarUrl)
+                    form.video__comment-form#commentForm
+                        div.comment__text__input
+                            textarea( placeholder="Write a nice comment", value=text)
+                            button
+                                i.fas.fa-arrow-up
 
 block scripts 
     script(src="/static/js/videoPlayer.js")

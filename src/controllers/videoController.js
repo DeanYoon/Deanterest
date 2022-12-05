@@ -8,7 +8,6 @@ export const home = async (req, res) => {
     const videos = await Video.find({})
       .sort({ createdAt: "desc" })
       .populate("owner");
-    console.log(videos);
     return res.render("home", { pageTitle: "Home", videos });
   } catch {
     return res.render("404");
@@ -22,6 +21,7 @@ export const watch = async (req, res) => {
     .populate("comments")
     .populate("owner");
   const comments = await Comment.find({ video: id }).populate("owner");
+  console.log(video);
 
   if (!video) {
     return res.status(400).render("404", { pageTitle: "Video Not Found." });
@@ -90,7 +90,7 @@ export const postUpload = async (req, res) => {
       owner: _id,
       createdAt: Date.now(),
       fileUrl: isHeroku ? video[0].location : video[0].path,
-      thumbUrl: isHeroku ? thumb[0].location : video[0].path,
+      thumbUrl: isHeroku ? thumb[0].location : thumb[0].path,
       hashtags: Video.formatHashtags(hashtags),
     });
     const user = await User.findById(_id);
