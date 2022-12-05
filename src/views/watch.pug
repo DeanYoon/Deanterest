@@ -3,7 +3,7 @@ extends base
 block content
     div#watch__video
         div#videoContainer(data-id=video._id)
-            video(video.fileUrl)
+            video(src=video.fileUrl)
             div#videoControls
                 button#play
                     i.fas.fa-play
@@ -44,7 +44,7 @@ block content
                     each comment in comments.reverse()
                         li.video__comment(data-id=comment._id)
                             a(href=`/users/${comment.owner._id}`)
-                                img.commentAvatar(comment.owner.avatarUrl)
+                                img.commentAvatar(src=comment.owner.avatarUrl)
                                 span.commentOwner=comment.owner.name
                             span #{comment.text}
                             i.fas.fa-ellipsis-h
