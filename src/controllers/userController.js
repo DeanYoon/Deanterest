@@ -140,6 +140,32 @@ export const see = async (req, res) => {
     videos,
   });
 };
+export const seeSaved = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id).populate({
+    path: "savedVideo",
+    populate: {
+      path: "owner",
+    },
+  });
+  const {
+    user: { _id },
+  } = req.session;
+  const videos = user.savedVideo;
+  if (!user) {
+    res.status(404).render("404", { pageTitle: "User not Found" });
+  }
+  if (String(id) !== String(_id)) {
+    req.flash("error", "Not authorized");
+
+    return res.status(403).redirect("/");
+  }
+  return res.render("./users/profile-saved", {
+    pageTitle: user.name,
+    user,
+    videos,
+  });
+};
 
 export const startGithubLogin = (req, res) => {
   const baseUrl = "https://github.com/login/oauth/authorize";

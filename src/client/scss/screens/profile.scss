@@ -9,6 +9,22 @@
     margin-bottom: 10px;
   }
   h3 {
-    font-size: 18px;
+    font-size: 30px;
+    font-weight: 1100;
+  }
+}
+
+.profile__buttons {
+  margin-bottom: 50px;
+  a {
+    background-color: white;
+    color: black;
+    margin: 5px 10px;
+    padding: 5px 10px;
+    border-radius: 50px;
+    font-weight: 1000;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.411);
+    }
   }
 }

@@ -55,10 +55,13 @@ const addComment = (text, id, owner) => {
   newComment.appendChild(icon);
   newComment.appendChild(box);
 
+  commentLength.innerText = `${comments.length + 1} ${
+    comments.length === 0 ? "comment" : "comments"
+  }`;
   span.innerText = `${text}`;
   newComment.className = "video__comment";
   videoComments.prepend(newComment);
-  console.log(newComment);
+
   icon.addEventListener("click", handleMoreBtn);
   deleteBtn.addEventListener("click", handleDeleteBtn);
 };
@@ -68,7 +71,6 @@ const handleSubmit = async (event) => {
   const textarea = form.querySelector("textarea");
   const text = textarea.value.trim();
   const videoId = videoContainer.dataset.id;
-
   if (!text) {
     return;
   }
@@ -112,13 +114,17 @@ const handleEditBtn = async (event) => {};
 const handleDeleteBtn = async (event) => {
   const li = event.target.parentElement.parentElement;
   const commentId = li.dataset.id;
+  const comments = document.querySelectorAll(".video__comments ul li");
 
-  const response = await fetch(`/api//videos/comment/${commentId}/delete`, {
+  const response = await fetch(`/api/videos/comment/${commentId}/delete`, {
     method: "POST",
   });
 
   if (response.status === 200) {
     li.remove();
+    commentLength.innerText = `${comments.length - 1} ${
+      comments.length === 2 || 1 ? "comment" : "comments"
+    }`;
   }
 };
 

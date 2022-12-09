@@ -1,9 +1,14 @@
 extends base
+include mixins/video
+
 
 block content
     div#watch__video
         div#videoContainer(data-id=video._id)
-            video(src=video.fileUrl)
+            if isHeroku
+                video(src=video.fileUrl)
+            else 
+                video(src='/'+video.fileUrl)
             div#videoControls
                 button#play
                     i.fas.fa-play
@@ -20,14 +25,22 @@ block content
 
 
         div.videoInfo
-
+            div.videoInfo__header
+                div.videoInfo__header__icon
+                    i.fas.fa-ellipsis-h.icon__more 
+                    i.fas.fa-share-alt.icon__share
+                button.saveBtn Save
             div.video__data
                 small Uploaded by 
                     a.video__owner(href=`/users/${video.owner._id}`)=video.owner.name
                 h1.video__title=video.title
                 h2.video__description=video.description
-                div.uploader__info
-                    img.uploader__avatar(src=video.owner.avatarUrl)
+                a.video__owner(href=`/users/${video.owner._id}`)
+                    div.uploader__info
+                        if isHeroku
+                            img.uploader__avatar(src=video.owner.avatarUrl)
+                        else 
+                            img.uploader__avatar(src='/'+video.owner.avatarUrl)
                     span.uploader__name=video.owner.username
             
                 hr
@@ -44,7 +57,10 @@ block content
                     each comment in comments.reverse()
                         li.video__comment(data-id=comment._id)
                             a(href=`/users/${comment.owner._id}`)
-                                img.commentAvatar(src=comment.owner.avatarUrl)
+                                if isHeroku
+                                    img.commentAvatar(src=comment.owner.avatarUrl)
+                                else 
+                                    img.commentAvatar(src='/'+comment.owner.avatarUrl)
                                 span.commentOwner=comment.owner.name
                             span #{comment.text}
                             i.fas.fa-ellipsis-h
@@ -56,15 +72,35 @@ block content
 
             if loggedIn  
                 div.video__add-comments
-                    img(src=loggedInUser.avatarUrl)
+                    if isHeroku
+                        img(src=loggedInUser.avatarUrl)
+                    else 
+                        img(src='/'+loggedInUser.avatarUrl)
                     form.video__comment-form#commentForm
                         div.comment__text__input
                             textarea( placeholder="Write a nice comment", value=text)
                             button
                                 i.fas.fa-arrow-up
 
+
+
+
+
+    div.video__grid
+        each video in videos
+            each video in videos 
+                +video(video)
+          
+   
+   
+        else 
+            span.empty__message No Videos Found
+
+
+
 block scripts 
     script(src="/static/js/videoPlayer.js")
     if loggedIn
         script(src="/static/js/commentSection.js") 
+        script(src="/static/js/videoSection.js") 
 

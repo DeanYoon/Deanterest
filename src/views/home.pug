@@ -3,8 +3,10 @@ include mixins/video
 
 block content 
     div.video__grid
-        each video in videos 
-            +video(video)
+        each video in videos
+            each video in videos 
+                +video(video)
+          
    
    
         else 

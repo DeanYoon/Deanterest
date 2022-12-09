@@ -10,8 +10,7 @@ block content
         h3=user.name
     div.profile__buttons
         a.profile__button__uploadVideos(href=`/users/${user._id}`) Uploaded Videos
-        if String(user._id) === String(loggedInUser._id)
-            a.profile__button__savedVideos(href=`/users/${user._id}/saved`) Saved Videos
+        a.profile__button__savedVideos(href=`/users/${user._id}/saved`) Saved Videos
     div.video__grid
         each video in videos 
             +video(video)
