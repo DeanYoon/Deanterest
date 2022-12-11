@@ -103,7 +103,8 @@
           }
         }
       }
-      .saveBtn {
+      .saveBtn,
+      .savedBtn {
         cursor: pointer;
         padding: 10px;
         border-radius: 20px;
@@ -114,6 +115,12 @@
         font-size: 15px;
         &:hover {
           background-color: rgb(163, 0, 0);
+        }
+      }
+      .savedBtn {
+        background-color: black;
+        &:hover {
+          background-color: black;
         }
       }
     }

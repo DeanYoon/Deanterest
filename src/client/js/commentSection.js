@@ -1,3 +1,5 @@
+const isHeroku = process.env.NODE_ENV === "production";
+
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
 const icons = document.querySelectorAll(".video__comments ul li i");
@@ -28,7 +30,7 @@ const addComment = (text, id, owner) => {
 
   userLink.href = `/users/${owner._id}`;
   userImg.className = "commentAvatar";
-  userImg.src = `${owner.avatarUrl}`;
+  userImg.src = isHeroku ? `${owner.avatarUrl}` : `/${owner.avatarUrl}`;
   userName.className = "commentOwner";
   userName.innerText = owner.name;
 

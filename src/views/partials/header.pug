@@ -25,8 +25,11 @@ header
                         if loggedInUser.avatarUrl
                             if isHeroku
                                 img.header__avatar(src=loggedInUser.avatarUrl)
-                            else 
-                                img.header__avatar(src='/'+loggedInUser.avatarUrl)
+                            else
+                                if loggedInUser.avatarUrl.startsWith('http')
+                                    img.header__avatar(src=loggedInUser.avatarUrl)
+                                else
+                                    img.header__avatar(src='/'+loggedInUser.avatarUrl)
 
                            
             else

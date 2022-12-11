@@ -29,7 +29,12 @@ block content
                 div.videoInfo__header__icon
                     i.fas.fa-ellipsis-h.icon__more 
                     i.fas.fa-share-alt.icon__share
-                button.saveBtn Save
+                h1=(String(loggedInUser.videos))
+                if String(user.savedVideo).includes(String(video.id))
+                    button.savedBtn Saved
+                else 
+                    button.saveBtn Save
+
             div.video__data
                 small Uploaded by 
                     a.video__owner(href=`/users/${video.owner._id}`)=video.owner.name

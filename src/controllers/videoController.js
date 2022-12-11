@@ -1,8 +1,7 @@
 import Video from "../models/Video";
 import User from "../models/User";
 import Comment from "../models/Comment";
-import res from "express/lib/response";
-import { async } from "regenerator-runtime";
+
 export const home = async (req, res) => {
   try {
     const videos = await Video.find({})
@@ -24,6 +23,12 @@ export const watch = async (req, res) => {
     .populate("comments")
     .populate("owner");
   const comments = await Comment.find({ video: id }).populate("owner");
+  const {
+    user: { _id },
+  } = req.session;
+  const user = await User.findById(_id);
+  console.log(video.id);
+  console.log(user);
 
   if (!video) {
     return res.status(400).render("404", { pageTitle: "Video Not Found." });
@@ -33,6 +38,7 @@ export const watch = async (req, res) => {
     video,
     videos,
     comments,
+    user,
   });
 };
 
