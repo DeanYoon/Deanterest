@@ -121,11 +121,12 @@ const handleDeleteBtn = async (event) => {
   const response = await fetch(`/api/videos/comment/${commentId}/delete`, {
     method: "POST",
   });
+  console.log(comments.length);
 
   if (response.status === 200) {
     li.remove();
     commentLength.innerText = `${comments.length - 1} ${
-      comments.length === 2 || 1 ? "comment" : "comments"
+      comments.length < 3 ? "comment" : "comments"
     }`;
   }
 };

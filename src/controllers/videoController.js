@@ -23,12 +23,6 @@ export const watch = async (req, res) => {
     .populate("comments")
     .populate("owner");
   const comments = await Comment.find({ video: id }).populate("owner");
-  const {
-    user: { _id },
-  } = req.session;
-  const user = await User.findById(_id);
-  console.log(video.id);
-  console.log(user);
 
   if (!video) {
     return res.status(400).render("404", { pageTitle: "Video Not Found." });
@@ -38,7 +32,6 @@ export const watch = async (req, res) => {
     video,
     videos,
     comments,
-    user,
   });
 };
 
@@ -269,7 +262,28 @@ export const saveVideo = async (req, res) => {
     user.savedVideo.push(id);
   }
   await user.save();
+  req.session.user = user;
 
-  console.log(user);
+  return res.sendStatus(200);
+};
+
+export const unsaveVideo = async (req, res) => {
+  const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
+  const user = await User.findById(_id);
+  if (!user) {
+    req.flash("error", "Login First");
+    return res.status("404").redirect(`/videos/${id}`);
+  }
+
+  user.savedVideo = user.savedVideo.filter(
+    (savedID) => String(savedID) !== String(id)
+  );
+
+  await user.save();
+  req.session.user = user;
+
   return res.sendStatus(200);
 };
