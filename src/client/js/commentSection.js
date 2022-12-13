@@ -235,6 +235,7 @@ const handleDeleteBtn = async (event) => {
 const handleLikeBtn = async (event) => {
   const li = event.target.parentElement.parentElement;
   const likeIcon = event.target;
+  likeIcon.className = "fas fa-thumbs-up";
   likeIcon.removeEventListener("click", handleLikeBtn);
   const commentId = li.dataset.id;
   const likedNum = li.querySelector("#likedNum");
@@ -244,7 +245,6 @@ const handleLikeBtn = async (event) => {
   });
 
   if (response.status === 200) {
-    likeIcon.className = "fas fa-thumbs-up";
     likeIcon.id = "liked";
     likedNum.innerHTML = currentLikedNum + 1;
     likeIcon.addEventListener("click", undoLikedBtn);
@@ -253,6 +253,7 @@ const handleLikeBtn = async (event) => {
 const undoLikedBtn = async (event) => {
   const li = event.target.parentElement.parentElement;
   const likedIcon = event.target;
+  likedIcon.className = "far fa-thumbs-up";
   likedIcon.removeEventListener("click", undoLikedBtn);
   const commentId = li.dataset.id;
   const likedNum = li.querySelector("#likedNum");
@@ -262,7 +263,6 @@ const undoLikedBtn = async (event) => {
   });
 
   if (response.status === 200) {
-    likedIcon.className = "far fa-thumbs-up";
     likedIcon.id = "like";
     likedNum.innerHTML = currentLikedNum - 1;
     likedIcon.addEventListener("click", handleLikeBtn);

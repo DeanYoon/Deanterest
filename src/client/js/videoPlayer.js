@@ -58,13 +58,13 @@ const handleLoadedMetadata = () => {
   totalTime.innerText = formatTime(Math.floor(video.duration));
   timeline.max = Math.floor(video.duration);
 };
-/*
+
 if (video.readyState >= 2) {
-  console.log(video.readyState);
+  getmetadata();
 }
 function getmetadata() {
   handleLoadedMetadata();
-} 중간중간 00:00 으로 뜰때*/
+} // 중간중간 00:00 으로 뜰때
 
 const handleTimeUpdate = () => {
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
