@@ -62,15 +62,28 @@ block content
             div.video__comments
                 ul 
                     each comment in comments.reverse()
-                        li.video__comment(data-id=comment._id)
+                        li.video__comment(data-id=comment._id, data-time=comment.createdAt.getTime())
                             a(href=`/users/${comment.owner._id}`)
                                 if isHeroku
                                     img.commentAvatar(src=comment.owner.avatarUrl)
                                 else 
                                     img.commentAvatar(src='/'+comment.owner.avatarUrl)
                                 span.commentOwner=comment.owner.name
-                            span #{comment.text}
-                            i.fas.fa-ellipsis-h
+                            span#commentText #{comment.text}
+                            if Math.floor((currentTime - comment.createdAt)/(1000*60)) < 60
+                                span#commentTimeElapsed #{Math.floor((currentTime - comment.createdAt)/(1000*60))} m
+                            else if Math.floor((currentTime - comment.createdAt)/(1000*60)) <60*24
+                                span#commentTimeElapsed #{Math.floor((currentTime - comment.createdAt)/(1000*60*60))} h
+                            else if Math.floor((currentTime - comment.createdAt)/(1000*60)) >= 60*24
+                                span#commentTimeElapsed #{Math.floor((currentTime - comment.createdAt)/(1000*60*60*24))} d
+                 
+                            span.iconBox
+                                if String(comment.likes).includes(String(loggedInUser._id))
+                                    i.fas.fa-thumbs-up#liked
+                                else
+                                    i.far.fa-thumbs-up#like
+                                span.iconBox__likedNum#likedNum=comment.likes.length
+                                i.fas.fa-ellipsis-h#more
                             if String(comment.owner._id) === String(loggedInUser._id)
 
                                 div.hidden#buttonBox 

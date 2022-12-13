@@ -27,7 +27,7 @@ export const localsMiddleware = (req, res, next) => {
   res.locals.siteName = "Wetube";
   res.locals.loggedInUser = req.session.user || {};
   res.locals.isHeroku = isHeroku;
-  // console.log(res.locals.loggedInUser);
+  res.locals.currentTime = new Date();
   next();
 };
 

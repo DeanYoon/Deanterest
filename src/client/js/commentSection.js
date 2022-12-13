@@ -2,15 +2,24 @@ const isHeroku = process.env.NODE_ENV === "production";
 
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
-const icons = document.querySelectorAll(".video__comments ul li i");
+const icons = document.querySelectorAll("#more");
 const editBtns = document.querySelectorAll("#editComment");
 const deleteBtns = document.querySelectorAll("#deleteComment");
 const commentLength = document.querySelector(".comment__length");
+const commentLikeBtns = document.querySelectorAll("#like");
+const commentLikedBtns = document.querySelectorAll("#liked");
 
 const HIDDEN = "hidden";
 let currentClickedCommentBox;
+let editCommentId;
+let editCommentTime;
+let currentTime = new Date().getTime();
 
-const addComment = (text, id, owner) => {
+setTimeout(() => {
+  currentTime = new Date().getTime();
+}, 1000);
+
+const addComment = (text, id, owner, dataTime = new Date().getTime()) => {
   const comments = document.querySelectorAll(".video__comments ul li");
 
   const videoComments = document.querySelector(".video__comments ul");
@@ -20,9 +29,14 @@ const addComment = (text, id, owner) => {
   const userImg = document.createElement("img");
   const userName = document.createElement("span");
 
-  const span = document.createElement("span");
+  const commentText = document.createElement("span");
 
-  const icon = document.createElement("i");
+  const commentTimeElapsed = document.createElement("span");
+
+  const iconBox = document.createElement("span");
+  const iconMore = document.createElement("i");
+  const iconLike = document.createElement("i");
+  const likeNum = document.createElement("span");
 
   const box = document.createElement("div");
   const editBtn = document.createElement("a");
@@ -34,7 +48,32 @@ const addComment = (text, id, owner) => {
   userName.className = "commentOwner";
   userName.innerText = owner.name;
 
-  icon.className = "fas fa-ellipsis-h";
+  commentText.id = "commentText";
+  commentText.innerText = `${text}`;
+
+  commentTimeElapsed.innerText = "0m";
+  commentTimeElapsed.id = "commentTimeElapsed";
+  if (editCommentTime) {
+    const elapsedTime = Math.floor(
+      (currentTime - editCommentTime) / (1000 * 60)
+    );
+    if (elapsedTime < 60) {
+      commentTimeElapsed.innerText = `${elapsedTime} m`;
+    } else if (elapsedTime < 60 * 24) {
+      commentTimeElapsed.innerText = `${Math.floor(elapsedTime / 60)} h`;
+    } else {
+      commentTimeElapsed.innerText = `${Math.floor(elapsedTime / 60 / 24)} d`;
+    }
+    console.log(elapsedTime);
+  }
+
+  iconBox.className = "iconBox";
+  iconMore.className = "fas fa-ellipsis-h";
+  iconMore.id = "more";
+  iconLike.className = "far fa-thumbs-up";
+  iconLike.id = "like";
+  likeNum.id = "likedNum";
+  likeNum.innerText = "0";
 
   box.classList.add("hidden");
   box.id = "buttonBox";
@@ -51,21 +90,40 @@ const addComment = (text, id, owner) => {
   box.appendChild(editBtn);
   box.appendChild(deleteBtn);
 
+  iconBox.appendChild(iconLike);
+  iconBox.appendChild(likeNum);
+  iconBox.appendChild(iconMore);
+
+  newComment.className = "video__comment";
   newComment.dataset.id = id;
+  newComment.dataset.time = dataTime;
+
   newComment.appendChild(userLink);
-  newComment.appendChild(span);
-  newComment.appendChild(icon);
+  newComment.appendChild(commentText);
+  newComment.appendChild(commentTimeElapsed);
+  newComment.appendChild(iconBox);
   newComment.appendChild(box);
 
   commentLength.innerText = `${comments.length + 1} ${
     comments.length === 0 ? "comment" : "comments"
   }`;
-  span.innerText = `${text}`;
-  newComment.className = "video__comment";
-  videoComments.prepend(newComment);
 
-  icon.addEventListener("click", handleMoreBtn);
+  var numCheck = 0;
+  console.log(comments);
+  comments.forEach((comment) => {
+    if (comment.dataset.time > dataTime) {
+      console.log(comment.dataset.time, numCheck);
+      numCheck += 1;
+    }
+  });
+  console.log(numCheck);
+  videoComments.insertBefore(newComment, videoComments.children[numCheck]);
+
+  iconMore.addEventListener("click", handleMoreBtn);
   deleteBtn.addEventListener("click", handleDeleteBtn);
+  iconLike.addEventListener("click", handleLikeBtn);
+  editBtn.addEventListener("click", handleEditBtn);
+  editCommentTime = "";
 };
 
 const handleSubmit = async (event) => {
@@ -90,21 +148,20 @@ const handleSubmit = async (event) => {
     addComment(text, newCommentId, owner);
   }
 };
-
-const handleMoreBtn = (event) => {
-  const icons = document.querySelectorAll(".video__comments ul li i");
+const hideBox = () => {
   const boxes = document.querySelectorAll(".video__comments ul li div");
-
-  icons.forEach((icon) => {
-    icon.addEventListener("click", handleMoreBtn);
-  });
 
   boxes.forEach((box) => {
     box.className = HIDDEN;
   });
-  li = event.target.parentElement;
+};
+
+const handleMoreBtn = (event) => {
+  hideBox();
+  li = event.target.parentElement.parentElement;
   const buttons = li.querySelector("div");
-  buttons.classList.toggle(HIDDEN);
+
+  buttons.className = "";
 };
 
 const addHidden = (event) => {
@@ -112,7 +169,53 @@ const addHidden = (event) => {
   const buttons = li.querySelector("#buttonBox");
 };
 
-const handleEditBtn = async (event) => {};
+const handleEditBtn = async (event) => {
+  form.removeEventListener("submit", handleSubmit);
+  form.addEventListener("submit", editCommentPost);
+
+  const textarea = form.querySelector("textarea");
+  const li = event.target.parentElement.parentElement;
+  const commentText = li.querySelector("li>span");
+  const commentId = li.dataset.id;
+  const commentTime = li.dataset.time;
+  editCommentId = commentId;
+  editCommentTime = commentTime;
+
+  textarea.value = commentText.innerHTML;
+  li.remove();
+};
+
+const editCommentPost = async (event) => {
+  const form = document.getElementById("commentForm");
+  form.removeEventListener("submit", editCommentPost);
+  form.addEventListener("submit", handleSubmit);
+  event.preventDefault();
+
+  const textarea = form.querySelector("textarea");
+  const text = textarea.value.trim();
+  const videoId = videoContainer.dataset.id;
+
+  if (!text) {
+    return;
+  }
+  const response = await fetch(
+    `/api/videos/${videoId}/comment/${editCommentId}/edit`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text }),
+    }
+  );
+
+  if (response.status === 201) {
+    textarea.value = "";
+    const { newCommentId, owner } = await response.json();
+    addComment(text, newCommentId, owner, editCommentTime);
+  }
+};
+
 const handleDeleteBtn = async (event) => {
   const li = event.target.parentElement.parentElement;
   const commentId = li.dataset.id;
@@ -121,13 +224,59 @@ const handleDeleteBtn = async (event) => {
   const response = await fetch(`/api/videos/comment/${commentId}/delete`, {
     method: "POST",
   });
-  console.log(comments.length);
 
   if (response.status === 200) {
     li.remove();
     commentLength.innerText = `${comments.length - 1} ${
       comments.length < 3 ? "comment" : "comments"
     }`;
+  }
+};
+const handleLikeBtn = async (event) => {
+  const li = event.target.parentElement.parentElement;
+  const likeIcon = event.target;
+  likeIcon.removeEventListener("click", handleLikeBtn);
+  const commentId = li.dataset.id;
+  const likedNum = li.querySelector("#likedNum");
+  const currentLikedNum = Number(likedNum.innerHTML);
+  const response = await fetch(`/api/videos/${commentId}/comment/liked`, {
+    method: "POST",
+  });
+
+  if (response.status === 200) {
+    likeIcon.className = "fas fa-thumbs-up";
+    likeIcon.id = "liked";
+    likedNum.innerHTML = currentLikedNum + 1;
+    likeIcon.addEventListener("click", undoLikedBtn);
+  }
+};
+const undoLikedBtn = async (event) => {
+  const li = event.target.parentElement.parentElement;
+  const likedIcon = event.target;
+  likedIcon.removeEventListener("click", undoLikedBtn);
+  const commentId = li.dataset.id;
+  const likedNum = li.querySelector("#likedNum");
+  const currentLikedNum = Number(likedNum.innerHTML);
+  const response = await fetch(`/api/videos/${commentId}/comment/undoLiked`, {
+    method: "POST",
+  });
+
+  if (response.status === 200) {
+    likedIcon.className = "far fa-thumbs-up";
+    likedIcon.id = "like";
+    likedNum.innerHTML = currentLikedNum - 1;
+    likedIcon.addEventListener("click", handleLikeBtn);
+  }
+};
+
+const closeMoreBtn = (event) => {
+  if (
+    event.target.id !== "editComment" &&
+    event.target.id !== "buttonBox" &&
+    event.target.id !== "deleteComment" &&
+    event.target.id !== "more"
+  ) {
+    hideBox();
   }
 };
 
@@ -144,5 +293,16 @@ if (icons) {
   deleteBtns.forEach((deleteBtn) => {
     deleteBtn.addEventListener("click", handleDeleteBtn);
   });
+  if (commentLikeBtns) {
+    commentLikeBtns.forEach((commentLikeBtn) => {
+      commentLikeBtn.addEventListener("click", handleLikeBtn);
+    });
+  }
+  if (commentLikedBtns) {
+    commentLikedBtns.forEach((commentLikedBtn) => {
+      commentLikedBtn.addEventListener("click", undoLikedBtn);
+    });
+  }
 }
-//window.addEventListener("click", handleMoreBtn);
+
+window.addEventListener("click", closeMoreBtn);

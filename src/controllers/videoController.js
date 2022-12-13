@@ -176,6 +176,7 @@ export const createComment = async (req, res) => {
   });
   video.comments.push(comment._id);
   await video.save();
+  console.log(comment);
   return res.status(201).json({ newCommentId: comment._id, owner: user });
 };
 
@@ -203,36 +204,17 @@ export const deleteComment = async (req, res) => {
 
   return res.sendStatus(200);
 };
-export const getCommentEdit = async (req, res) => {
-  const {
-    session: { user },
-    body: { text },
-    params: { id },
-  } = req;
 
-  const comment = await Comment.findById(id);
-  const videoId = comment.video;
-
-  if (!comment) {
-    return res.status(404).render("404", { pageTitle: "Comment not found" });
-  }
-  if (String(comment.owner) !== user._id) {
-    req.flash("error", "Not authorized");
-    return res.status(403).redirect("/");
-  }
-
-  res.redirect(`/videos/${videoId}`);
-};
 export const postCommentEdit = async (req, res) => {
   const {
     session: { user },
     body: { text },
-    params: { id },
+    params: { commentId },
   } = req;
 
-  const comment = await Comment.findById(id);
+  const comment = await Comment.findById(commentId);
+  console.log(comment);
   const videoId = comment.video;
-  const video = await Video.findById(videoId);
 
   if (!comment) {
     return res.status(404).render("404", { pageTitle: "Comment not found" });
@@ -241,11 +223,11 @@ export const postCommentEdit = async (req, res) => {
     req.flash("error", "Not authorized");
     return res.status(403).redirect("/");
   }
-  await Comment.findByIdAndUpdate(id, {
+  await Comment.findByIdAndUpdate(commentId, {
     text,
   });
-
-  res.redirect(`/videos/${videoId}`);
+  await comment.save();
+  return res.status(201).json({ newCommentId: comment._id, owner: user });
 };
 
 export const saveVideo = async (req, res) => {
@@ -285,5 +267,35 @@ export const unsaveVideo = async (req, res) => {
   await user.save();
   req.session.user = user;
 
+  return res.sendStatus(200);
+};
+
+export const likeComment = async (req, res) => {
+  const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
+  const comment = await Comment.findById(id);
+  if (!comment.likes.includes(_id)) {
+    comment.likes.push(_id);
+  }
+  await comment.save();
+  console.log(comment);
+  return res.sendStatus(200);
+};
+
+export const undoLikeComment = async (req, res) => {
+  const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
+  const comment = await Comment.findById(id);
+
+  comment.likes = comment.likes.filter(
+    (likedId) => String(likedId) !== String(_id)
+  );
+
+  await comment.save();
+  console.log(comment);
   return res.sendStatus(200);
 };

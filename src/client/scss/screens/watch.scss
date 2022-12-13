@@ -175,15 +175,16 @@
         margin-bottom: 10px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         position: relative;
-
+        width: 400px;
         a {
           display: flex;
           align-items: center;
           font-size: 10px;
           font-weight: 1000;
-          margin-right: 20px;
+
+          width: 15%;
           img {
             width: 20px;
             height: 20px;
@@ -191,7 +192,31 @@
             margin-right: 10px;
           }
         }
-
+        #commentText {
+          width: 63%;
+        }
+        #commentTimeElapsed {
+          width: 7%;
+          font-size: 3px;
+        }
+        .iconBox {
+          width: 15%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          #liked,
+          #like {
+            width: 40%;
+          }
+          #likedNum {
+            width: 20%;
+            text-align: center;
+          }
+          #more {
+            width: 40%;
+            margin-left: 1px;
+          }
+        }
         div {
           position: absolute;
           z-index: 1;
