@@ -67,7 +67,10 @@ block content
                                 if isHeroku
                                     img.commentAvatar(src=comment.owner.avatarUrl)
                                 else 
-                                    img.commentAvatar(src='/'+comment.owner.avatarUrl)
+                                    if comment.owner.avatarUrl.startsWith('http')
+                                        img.commentAvatar(src=comment.owner.avatarUrl)
+                                    else
+                                        img.commentAvatar(src='/'+comment.owner.avatarUrl)
                                 span.commentOwner=comment.owner.name
                             span#commentText #{comment.text}
                             if Math.floor((currentTime - comment.createdAt)/(1000*60)) < 60
@@ -94,8 +97,11 @@ block content
                 div.video__add-comments
                     if isHeroku
                         img(src=loggedInUser.avatarUrl)
-                    else 
-                        img(src='/'+loggedInUser.avatarUrl)
+                    else
+                        if loggedInUser.avatarUrl.startsWith('htt')
+                            img(src=loggedInUser.avatarUrl)
+                        else
+                            img(src='/'+loggedInUser.avatarUrl)
                     form.video__comment-form#commentForm
                         div.comment__text__input
                             textarea( placeholder="Write a nice comment", value=text)

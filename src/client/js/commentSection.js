@@ -44,14 +44,19 @@ const addComment = (text, id, owner, dataTime = new Date().getTime()) => {
 
   userLink.href = `/users/${owner._id}`;
   userImg.className = "commentAvatar";
-  userImg.src = isHeroku ? `${owner.avatarUrl}` : `/${owner.avatarUrl}`;
+  if (owner.avatarUrl.startsWith("http")) {
+    userImg.src = isHeroku ? `${owner.avatarUrl}` : `${owner.avatarUrl}`;
+  } else {
+    userImg.src = isHeroku ? `${owner.avatarUrl}` : `/${owner.avatarUrl}`;
+  }
+
   userName.className = "commentOwner";
   userName.innerText = owner.name;
 
   commentText.id = "commentText";
   commentText.innerText = `${text}`;
 
-  commentTimeElapsed.innerText = "0m";
+  commentTimeElapsed.innerText = "0 m";
   commentTimeElapsed.id = "commentTimeElapsed";
   if (editCommentTime) {
     const elapsedTime = Math.floor(

@@ -9,6 +9,8 @@ import {
   getChangePassword,
   postChangePassword,
   seeSaved,
+  startKakaoLogin,
+  finishKakaoLogin,
 } from "../controllers/userController";
 
 import {
@@ -31,6 +33,8 @@ userRouter
   .post(postChangePassword);
 userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin);
 userRouter.get("/github/finish", publicOnlyMiddleware, finishGithubLogin);
+userRouter.get("/kakao/start", publicOnlyMiddleware, startKakaoLogin);
+userRouter.get("/kakao/finish", publicOnlyMiddleware, finishKakaoLogin);
 userRouter.get("/:id", see);
 userRouter.get("/:id/saved", seeSaved);
 export default userRouter;

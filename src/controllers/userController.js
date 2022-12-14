@@ -4,6 +4,7 @@ import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 import { redirect } from "express/lib/response";
+
 export const getJoin = (req, res) => {
   return res.render("users/join", { pageTitle: "Join" });
 };
@@ -284,4 +285,68 @@ export const postChangePassword = async (req, res) => {
 
   //send notification
   return res.redirect("/users/logout");
+};
+
+export const startKakaoLogin = (req, res) => {
+  const baseUrl = "https://kauth.kakao.com/oauth/authorize";
+  const config = {
+    client_id: process.env.KAKAO_CLIENT,
+    redirect_uri: "http://localhost:4000/users/kakao/finish",
+    response_type: "code",
+  };
+  const params = new URLSearchParams(config).toString();
+  const finalUrl = `${baseUrl}?${params}`;
+  return res.redirect(finalUrl);
+};
+
+export const finishKakaoLogin = async (req, res) => {
+  const baseUrl = "https://kauth.kakao.com/oauth/token";
+  const config = {
+    grant_type: "authorization_code",
+    client_id: process.env.KAKAO_CLIENT,
+    redirect_uri: "http://localhost:4000/users/kakao/finish",
+    code: req.query.code,
+    client_secret: process.env.KAKAO_SECRET,
+  };
+
+  const params = new URLSearchParams(config).toString();
+  const finalUrl = `${baseUrl}?${params}`;
+  const kakaoTokenRequest = await (
+    await fetch(finalUrl, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+  ).json();
+
+  if ("access_token" in kakaoTokenRequest) {
+    const { access_token } = kakaoTokenRequest;
+    const apiUrl = "https://kapi.kakao.com";
+    const userData = await (
+      await fetch(`${apiUrl}/v2/user/me`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+    ).json();
+
+    let user = await User.findOne({ email: userData.kakao_account.email });
+    if (!user) {
+      user = await User.create({
+        avatarUrl: userData.kakao_account.profile.profile_image_url,
+        email: userData.kakao_account.email,
+        username: userData.properties.nickname,
+        password: "",
+        location: "Undefined",
+        socialOnly: true,
+        name: userData.properties.nickname,
+      });
+    }
+    req.session.loggedIn = true;
+    req.session.user = user;
+    return res.redirect("/");
+  } else {
+    return res.redirect("/login");
+  }
 };
