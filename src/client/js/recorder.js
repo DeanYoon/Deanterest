@@ -76,7 +76,7 @@ const handleStart = async () => {
 
   stream = await navigator.mediaDevices.getUserMedia({
     //audio: true,
-    video: { width: 800, height: 400 },
+    // video: { width: 800, height: 400 },
   });
 
   recorder = new MediaRecorder(stream);
@@ -122,5 +122,5 @@ const init = async () => {
   video.play();
 };
 
-init();
+// init();
 actionBtn.addEventListener("click", handleStart);
