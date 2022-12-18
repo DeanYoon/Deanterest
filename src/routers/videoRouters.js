@@ -7,12 +7,15 @@ import {
   deleteVideo,
   postEdit,
   deleteComment,
+  classifyImg,
 } from "../controllers/videoController";
 import {
   publicOnlyMiddleware,
   protectorMiddleware,
   videoUpload,
+  uploadMiddleware,
 } from "../middlewares";
+import { client } from "../server";
 
 const videoRouter = express.Router();
 
@@ -35,5 +38,6 @@ videoRouter
     postUpload
   );
 
+videoRouter.post("/upload/classify", uploadMiddleware, classifyImg);
 videoRouter.get("/:id([0-9a-f]{24})/delete", protectorMiddleware, deleteVideo);
 export default videoRouter;

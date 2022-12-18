@@ -63,3 +63,7 @@ export const videoUpload = multer({
   },
   storage: isHeroku ? s3VideoUploader : undefined,
 });
+
+export const uploadMiddleware = () => {
+  avatarUpload.single("file");
+};

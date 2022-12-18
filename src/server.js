@@ -8,8 +8,14 @@ import apiRouter from "./routers/apiRouter";
 import session from "express-session";
 import { localsMiddleware } from "./middlewares";
 import MongoStore from "connect-mongo";
+import vision from "@google-cloud/vision";
+
 const app = express();
 const logger = morgan("short");
+export const client = new vision.ImageAnnotatorClient({
+  keyFilename: "../keyFile.json",
+});
+
 app.use(logger);
 
 app.set("view engine", "pug");

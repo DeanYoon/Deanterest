@@ -1,6 +1,8 @@
 import Video from "../models/Video";
 import User from "../models/User";
 import Comment from "../models/Comment";
+import vision from "@google-cloud/vision";
+import { client } from "../server";
 
 export const home = async (req, res) => {
   try {
@@ -76,7 +78,35 @@ export const postEdit = async (req, res) => {
   return res.redirect(`/videos/${id}`);
 };
 
-export const getUpload = (req, res) => {
+const imgClassify = async (IMG) => {
+  const CREDENTIALS = JSON.parse(
+    JSON.stringify("/Users/deanyoon/frontend/Deanterest/keyFile.json")
+  );
+  const config = {
+    credential: {
+      private_key: CREDENTIALS.private_key,
+      client_email: CREDENTIALS.client_email,
+    },
+  };
+  const client = new vision.ImageAnnotatorClient(config);
+
+  const [result] = await client.labelDetection(IMG);
+
+  const labels = result.labelAnnotations;
+
+  const classifiedLabels = [];
+  labels.forEach((label) => {
+    classifiedLabels.push(label.description);
+  });
+
+  return classifiedLabels;
+};
+
+export const getUpload = async (req, res) => {
+  const result = imgClassify(
+    "https://animals.sandiegozoo.org/sites/default/files/2016-08/hero_zebra_animals.jpg"
+  );
+  console.log(result[0], result[1], result[2]);
   return res.render("upload", { pageTitle: "Upload Video" });
 };
 
@@ -298,4 +328,8 @@ export const undoLikeComment = async (req, res) => {
   await comment.save();
   console.log(comment);
   return res.sendStatus(200);
+};
+
+export const classifyImg = (req, res) => {
+  console.log(req.files);
 };
