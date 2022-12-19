@@ -6,7 +6,10 @@ block content
         if isHeroku
             img(src=user.avatarUrl).avatar
         else
-            img(src='/'+user.avatarUrl).avatar
+            if user.avatarUrl.startsWith('http')
+                img(src=user.avatarUrl).avatar
+            else
+                img(src='/'+user.avatarUrl).avatar
         h3=user.name
     div.profile__buttons
         a.profile__button__uploadVideos(href=`/users/${user._id}`) Uploaded Videos

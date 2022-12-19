@@ -24,8 +24,6 @@
   "dependencies": {
     "@ffmpeg/core": "^0.8.5",
     "@ffmpeg/ffmpeg": "^0.9.7",
-    "@google-cloud/cloud-sdk": "^0.0.4",
-    "@google-cloud/vision": "^3.0.1",
     "aws-sdk": "~2.895.0",
     "axios": "^1.2.1",
     "bcrypt": "^5.0.1",

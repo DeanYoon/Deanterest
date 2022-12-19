@@ -294,6 +294,7 @@ export const startKakaoLogin = (req, res) => {
     redirect_uri: "http://localhost:4000/users/kakao/finish",
     response_type: "code",
   };
+
   const params = new URLSearchParams(config).toString();
   const finalUrl = `${baseUrl}?${params}`;
   return res.redirect(finalUrl);

@@ -1,7 +1,7 @@
 import Video from "../models/Video";
 import User from "../models/User";
 import Comment from "../models/Comment";
-import vision from "@google-cloud/vision";
+// import vision from "@google-cloud/vision";
 import { client } from "../server";
 
 export const home = async (req, res) => {
