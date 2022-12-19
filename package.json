@@ -24,6 +24,7 @@
   "dependencies": {
     "@ffmpeg/core": "^0.8.5",
     "@ffmpeg/ffmpeg": "^0.9.7",
+    "@google-cloud/vision": "^3.0.1",
     "aws-sdk": "~2.895.0",
     "axios": "^1.2.1",
     "bcrypt": "^5.0.1",
@@ -32,6 +33,7 @@
     "express": "^4.17.1",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.1",
+    "fs": "^0.0.1-security",
     "mongoose": "^5.12.3",
     "morgan": "^1.10.0",
     "multer": "~1.4.2",
@@ -45,6 +47,7 @@
     "@babel/core": "^7.20.5",
     "@babel/node": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
+    "@types/node": "^18.11.17",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.2",
     "mini-css-extract-plugin": "^1.5.0",

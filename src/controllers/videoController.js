@@ -1,7 +1,7 @@
 import Video from "../models/Video";
 import User from "../models/User";
 import Comment from "../models/Comment";
-// import vision from "@google-cloud/vision";
+import vision from "@google-cloud/vision";
 import { client } from "../server";
 
 export const home = async (req, res) => {
@@ -77,8 +77,7 @@ export const postEdit = async (req, res) => {
   });
   return res.redirect(`/videos/${id}`);
 };
-
-const imgClassify = async (IMG) => {
+export const imgClassify = async (IMG) => {
   const CREDENTIALS = JSON.parse(
     JSON.stringify("/Users/deanyoon/frontend/Deanterest/keyFile.json")
   );
@@ -103,10 +102,10 @@ const imgClassify = async (IMG) => {
 };
 
 export const getUpload = async (req, res) => {
-  const result = imgClassify(
-    "https://animals.sandiegozoo.org/sites/default/files/2016-08/hero_zebra_animals.jpg"
+  const result = await imgClassify(
+    "https://dfrkkcv2hg1jc.cloudfront.net/data/product_en/2040048506_file6_158675554145c9r0pwi5.jpg"
   );
-  console.log(result[0], result[1], result[2]);
+  console.log(result[0]);
   return res.render("upload", { pageTitle: "Upload Video" });
 };
 
