@@ -291,7 +291,7 @@ export const startKakaoLogin = (req, res) => {
   const baseUrl = "https://kauth.kakao.com/oauth/authorize";
   const config = {
     client_id: process.env.KAKAO_CLIENT,
-    redirect_uri: "https://deanterest.herokuapp.com/users/github/finish",
+    redirect_uri: "https://deanterest.herokuapp.com/users/kakao/finish",
     response_type: "code",
   };
 
@@ -305,7 +305,7 @@ export const finishKakaoLogin = async (req, res) => {
   const config = {
     grant_type: "authorization_code",
     client_id: process.env.KAKAO_CLIENT,
-    redirect_uri: "https://deanterest.herokuapp.com/users/github/finish",
+    redirect_uri: "https://deanterest.herokuapp.com/users/kakao/finish",
     code: req.query.code,
     client_secret: process.env.KAKAO_SECRET,
   };
