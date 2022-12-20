@@ -69,7 +69,6 @@ const addComment = (text, id, owner, dataTime = new Date().getTime()) => {
     } else {
       commentTimeElapsed.innerText = `${Math.floor(elapsedTime / 60 / 24)} d`;
     }
-    console.log(elapsedTime);
   }
 
   iconBox.className = "iconBox";
@@ -114,14 +113,11 @@ const addComment = (text, id, owner, dataTime = new Date().getTime()) => {
   }`;
 
   var numCheck = 0;
-  console.log(comments);
   comments.forEach((comment) => {
     if (comment.dataset.time > dataTime) {
-      console.log(comment.dataset.time, numCheck);
       numCheck += 1;
     }
   });
-  console.log(numCheck);
   videoComments.insertBefore(newComment, videoComments.children[numCheck]);
 
   iconMore.addEventListener("click", handleMoreBtn);

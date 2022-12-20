@@ -207,7 +207,6 @@ export const createComment = async (req, res) => {
   });
   video.comments.push(comment._id);
   await video.save();
-  console.log(comment);
   return res.status(201).json({ newCommentId: comment._id, owner: user });
 };
 
@@ -244,7 +243,6 @@ export const postCommentEdit = async (req, res) => {
   } = req;
 
   const comment = await Comment.findById(commentId);
-  console.log(comment);
   const videoId = comment.video;
 
   if (!comment) {
@@ -311,7 +309,6 @@ export const likeComment = async (req, res) => {
     comment.likes.push(_id);
   }
   await comment.save();
-  console.log(comment);
   return res.sendStatus(200);
 };
 
@@ -327,7 +324,6 @@ export const undoLikeComment = async (req, res) => {
   );
 
   await comment.save();
-  console.log(comment);
   return res.sendStatus(200);
 };
 
