@@ -1,13 +1,12 @@
 .video__grid {
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  width: 1200px;
-  columns: 4;
+  max-width: 100vw;
+  columns: var(--columns);
   column-gap: 10px;
+  margin: 0 100px;
   .video {
     width: 280px;
     margin: 0 1rem 1rem 0;
+    float: left;
     break-inside: avoid;
     .video-mixin__thumb:hover {
       -webkit-filter: brightness(50%);

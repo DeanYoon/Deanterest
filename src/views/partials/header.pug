@@ -10,10 +10,15 @@ header
            
             if loggedIn 
                 li 
-                    a(href="/videos/upload") Upload Videos
-            li 
-                a(href="/search")
-                    i.fas.fa-search
+                    a(href="/videos/upload") Create
+                li.search.loggedIn
+                    form(method="GET" id='search-header' action='/search')
+                        input(placeholder="Search by title", name="keyword", type="text", id='header-input')
+            else            
+                li.search 
+                    form(method="GET" id='search-header' action='/search')
+                        input(placeholder="Search by title", name="keyword", type="text", id='header-input-loggedIn')
+
             if loggedIn
                 li 
                     a(href="/users/logout") Log out

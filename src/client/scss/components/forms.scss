@@ -1,11 +1,11 @@
-form {
+form:not(#search-header) {
   background-color: rgba(0, 0, 0, 0.465);
   padding: 30px;
   border-radius: 10px;
   margin: 0 auto;
 }
 
-input:not(input[type="range"], input[type="submit"]) {
+input:not(input[type="range"], input[type="submit"], #header-input) {
   all: unset;
   padding: 15px 20px;
   border-radius: 5px;

@@ -1,2 +1,8 @@
 $red: rgb(255, 0, 43);
 $color: white;
+$columns: 4;
+
+:root {
+  --columns: 5;
+  --search-width: 1200px;
+}

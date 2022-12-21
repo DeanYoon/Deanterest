@@ -1,7 +1,7 @@
 header {
   padding: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   .header__logo {
     color: #e60023;
@@ -15,12 +15,36 @@ header {
 
     ul {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
+      width: 100%;
       li {
         margin-left: 25px;
         font-size: 15px;
         text-transform: uppercase;
+        a {
+          width: 100px;
+          box-sizing: border-box;
+        }
+        form {
+          margin-bottom: 0;
+          display: flex;
+          align-items: center;
+          width: 100%;
+          input {
+            margin-bottom: 0 !important;
+            min-width: 200px;
+          }
+          #header-input {
+            width: var(--search-width);
+          }
+          #header-input-loggedIn {
+            width: var(--search-width);
+          }
+        }
+      }
+      .search {
+        width: 90%;
       }
     }
   }
