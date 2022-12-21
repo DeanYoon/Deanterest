@@ -244,10 +244,9 @@ const handleLikeBtn = async (event) => {
   const response = await fetch(`/api/videos/${commentId}/comment/liked`, {
     method: "POST",
   });
-
+  likeIcon.id = "liked";
+  likedNum.innerHTML = currentLikedNum + 1;
   if (response.status === 200) {
-    likeIcon.id = "liked";
-    likedNum.innerHTML = currentLikedNum + 1;
     likeIcon.addEventListener("click", undoLikedBtn);
   }
 };
@@ -259,13 +258,13 @@ const undoLikedBtn = async (event) => {
   const commentId = li.dataset.id;
   const likedNum = li.querySelector("#likedNum");
   const currentLikedNum = Number(likedNum.innerHTML);
+  likedIcon.id = "like";
+  likedNum.innerHTML = currentLikedNum - 1;
   const response = await fetch(`/api/videos/${commentId}/comment/undoLiked`, {
     method: "POST",
   });
 
   if (response.status === 200) {
-    likedIcon.id = "like";
-    likedNum.innerHTML = currentLikedNum - 1;
     likedIcon.addEventListener("click", handleLikeBtn);
   }
 };
