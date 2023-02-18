@@ -1,8 +1,8 @@
 # Deanterest
 
-deanterest.herokuapp.com/
+https://deanterest.herokuapp.com/
 
-https://![스크린샷 2023-02-14 오후 12 33 57](https://user-images.githubusercontent.com/68269605/218632948-4f15de19-1685-4106-9815-1bcbf4b589a0.png)
+![스크린샷 2023-02-14 오후 12 33 57](https://user-images.githubusercontent.com/68269605/218632948-4f15de19-1685-4106-9815-1bcbf4b589a0.png)
 
 
 ![스크린샷 2023-02-14 오후 12 36 14](https://user-images.githubusercontent.com/68269605/218632932-bdb53129-8467-451d-92dc-5289ebf662d4.png)
